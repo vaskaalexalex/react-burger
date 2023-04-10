@@ -1,0 +1,14 @@
+.modal-overlay {
+    display: flex;
+    position: fixed;
+    align-items: center;
+    justify-content: center;
+    background-color: #00000099;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 500;
+    overflow: hidden;
+    cursor: pointer;
+}

@@ -1,0 +1,36 @@
+.burger-constructor {
+    display: flex;
+    flex-flow: column;
+    height: 600px;
+    overflow: auto;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    justify-content: space-between;
+}
+.constructor-wrapper {
+    margin-top: auto;
+}
+
+.item{
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.item-inner{
+    display: inline-flex;
+    align-items: center;
+    height: 80px;
+}
+
+.price {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.total {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+}

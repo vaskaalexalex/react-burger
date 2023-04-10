@@ -1,0 +1,13 @@
+.total {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 550px;
+    padding: 48px
+}
+
+.number {
+    margin-bottom: 32px;
+    text-shadow: 0 0 6px rgb(51 51 255 / 40%),
+    0 0 4px rgb(51 51 255 / 40%), 0 4px 4px rgb(51 51 255 / 75%);
+}
