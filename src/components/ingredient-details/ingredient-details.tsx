@@ -1,8 +1,8 @@
-import { IIngredient } from "../../constants";
+import { IIngredient } from "../constants";
 import React, { Fragment } from "react";
 import cardsStyles from "../card/burger-ingredients-card.module.css";
 
-const ModalIngredient = ({ ingredient }: { ingredient: IIngredient }) => {
+const IngredientDetails = ({ ingredient }: { ingredient: IIngredient }) => {
   const { name, image_large, calories, carbohydrates, fat, proteins } =
     ingredient;
 
@@ -50,4 +50,4 @@ const ModalIngredient = ({ ingredient }: { ingredient: IIngredient }) => {
   );
 };
 
-export default ModalIngredient;
+export default IngredientDetails;

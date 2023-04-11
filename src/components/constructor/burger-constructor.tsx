@@ -6,12 +6,12 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import constructorStyles from "./burger-constructor.module.css";
-import { IngredientType } from "../constants";
+import { IIngredient, IngredientType } from "../constants";
 import Modal from "../modal/modal-template";
-import ModalTotal from "./modal-total/modal-total";
+import ModalTotal from "../order-details/order-details";
 
-const BurgerConstructor = ({ selected }: { selected: any }) => {
-  const [price, setPrice] = useState(null);
+const BurgerConstructor = ({ selected }: { selected: IIngredient[] }) => {
+  const [price, setPrice] = useState<number>(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => {
@@ -23,25 +23,25 @@ const BurgerConstructor = ({ selected }: { selected: any }) => {
   };
 
   const bunElementHandler = (
-    chosenIngredients: any,
+    chosenIngredients: IIngredient[],
     property: string,
     trueValue: string,
     falseValue: string
   ) =>
     chosenIngredients.find(
-      (ingredient: any) => ingredient.type === IngredientType.bun
+      (ingredient: IIngredient) => ingredient.type === IngredientType.bun
     )
-      ? // @ts-ignore
-        `${
+      ? `${
+          // @ts-ignore
           chosenIngredients.find(
-            (ingredient: any) => ingredient.type === IngredientType.bun
+            (ingredient: IIngredient) => ingredient.type === IngredientType.bun
           )[property]
         } ${trueValue}`
       : falseValue;
 
   useEffect(() => {
     const totalPrice = selected.reduce(
-      (acc: number, item: any) =>
+      (acc: number, item: IIngredient) =>
         acc + item.price * (item.type === IngredientType.bun ? 2 : 1),
       0
     );
@@ -74,7 +74,7 @@ const BurgerConstructor = ({ selected }: { selected: any }) => {
         </div>
         <ul className={`${constructorStyles.item}`}>
           {selected.map(
-            (ingredient: any) =>
+            (ingredient: IIngredient) =>
               ingredient.type !== IngredientType.bun && (
                 <div className={`${constructorStyles["item-inner"]} mt-2 mb-2`}>
                   <DragIcon type="primary" />

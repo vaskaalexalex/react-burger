@@ -11,16 +11,17 @@ export const INGREDIENT_TYPE_TEXT = {
 };
 
 export interface IIngredient {
+  id: string;
+  name: string;
+  type: IngredientType.bun | IngredientType.main | IngredientType.sauce;
+  fat: number;
   calories: number;
   carbohydrates: number;
-  fat: number;
+  proteins: number;
   image: string;
   image_large: string;
   image_mobile: string;
-  name: string;
-  type: IngredientType.bun | IngredientType.main | IngredientType.sauce;
   price: number;
-  proteins: number;
   _v: number;
   _id: string;
 }

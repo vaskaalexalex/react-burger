@@ -24,6 +24,7 @@ const BurgerIngredients = ({
   const sauceAnchor = useRef<null | HTMLDivElement>(null);
   const mainAnchor = useRef<null | HTMLDivElement>(null);
 
+  //TODO: types for ref and current
   const handleScroll = (ref: any, current: any): void => {
     ref.current.scrollIntoView({ behavior: "smooth" });
     setCurrent(current);
@@ -68,10 +69,11 @@ const BurgerIngredients = ({
           </p>
         </div>
         <div className={ingredientsStyles["item-container"]}>
-          {buns?.map((bun: any) => {
+          {buns?.map((bun) => {
             return (
               <IngredientCard
-                key={bun.id}
+                key={bun._id}
+                // @ts-ignore
                 ingredient={bun}
                 selected={selected}
                 setSelected={setSelected}
@@ -85,10 +87,11 @@ const BurgerIngredients = ({
           </p>
         </div>
         <div className={ingredientsStyles["item-container"]}>
-          {sauces?.map((sauce: any) => {
+          {sauces?.map((sauce) => {
             return (
               <IngredientCard
-                key={sauce.id}
+                key={sauce._id}
+                // @ts-ignore
                 ingredient={sauce}
                 selected={selected}
                 setSelected={setSelected}
@@ -102,10 +105,11 @@ const BurgerIngredients = ({
           </p>
         </div>
         <div className={ingredientsStyles["item-container"]}>
-          {mains?.map((main: any) => {
+          {mains?.map((main) => {
             return (
               <IngredientCard
-                key={main.id}
+                key={main._id}
+                // @ts-ignore
                 ingredient={main}
                 selected={selected}
                 setSelected={setSelected}

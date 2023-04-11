@@ -7,7 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import headerStyles from "./app-header.module.css";
 
-const AppHeader = () => {
+const AppHeader = (): JSX.Element => {
   return (
     <header className={headerStyles.header}>
       <nav className={headerStyles["header-inner"]}>

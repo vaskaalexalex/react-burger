@@ -1,8 +1,8 @@
 import React from "react";
 import { ReactComponent as AcceptBg } from "../../../images/accpet-bg.svg";
-import totalStyles from "./modal-total.module.css";
+import totalStyles from "./orded-details.module.css";
 
-const ModalTotal = () => {
+const OrderDetails = () => {
   return (
     <div className={totalStyles.total}>
       <div className={`${totalStyles.number} text text_type_digits-large`}>
@@ -30,4 +30,4 @@ const ModalTotal = () => {
   );
 };
 
-export default ModalTotal;
+export default OrderDetails;
