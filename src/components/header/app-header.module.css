@@ -19,12 +19,16 @@ nav {
 }
 
 .menu-item {
+  color: #8585ad;
+  cursor: pointer;
+  list-style-type: none;
+}
+a {
   display: flex;
   align-items: center;
-  color: #8585ad;
-  list-style-type: none;
-  cursor: pointer;
+  text-decoration: none;
 }
+
 
 .menu-right {
   display: flex;

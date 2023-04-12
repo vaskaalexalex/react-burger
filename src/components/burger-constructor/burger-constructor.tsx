@@ -50,33 +50,36 @@ const BurgerConstructor = ({ selected }: { selected: IIngredient[] }) => {
 
   return (
     <div className={`${constructorStyles["constructor-wrapper"]}`}>
+      <div className={constructorStyles.item}>
+        {selected.length > 0 ? (
+          <div className="ml-5">
+            <ConstructorElement
+              type="top"
+              text={bunElementHandler(
+                selected,
+                "name",
+                "(верх)",
+                "Выберите булку"
+              )}
+              price={+bunElementHandler(selected, "price", "", "0")}
+              thumbnail={bunElementHandler(selected, "image", "", "")}
+            />
+          </div>
+        ) : (
+          <p className="text text_type_main-large">Выберите булку</p>
+        )}
+      </div>
       <div
         className={`${constructorStyles["burger-constructor"]} custom-scroll`}
       >
-        <div className={constructorStyles.item}>
-          {selected.length > 0 ? (
-            <div className="ml-5">
-              <ConstructorElement
-                type="top"
-                text={bunElementHandler(
-                  selected,
-                  "name",
-                  "(верх)",
-                  "Выберите булку"
-                )}
-                price={+bunElementHandler(selected, "price", "", "0")}
-                thumbnail={bunElementHandler(selected, "image", "", "")}
-              />
-            </div>
-          ) : (
-            <p className="text text_type_main-large">Выберите булку</p>
-          )}
-        </div>
         <ul className={`${constructorStyles.item}`}>
           {selected.map(
             (ingredient: IIngredient) =>
               ingredient.type !== IngredientType.bun && (
-                <div className={`${constructorStyles["item-inner"]} mt-2 mb-2`}>
+                <div
+                  key={ingredient._id}
+                  className={`${constructorStyles["item-inner"]} mt-2 mb-2`}
+                >
                   <DragIcon type="primary" />
                   <ConstructorElement
                     text={ingredient.name}
@@ -87,22 +90,22 @@ const BurgerConstructor = ({ selected }: { selected: IIngredient[] }) => {
               )
           )}
         </ul>
-        <div className="ml-5">
-          {selected.length > 0 && (
-            <ConstructorElement
-              type="bottom"
-              isLocked={true}
-              text={bunElementHandler(
-                selected,
-                "name",
-                "(низ)",
-                "Выберите булку"
-              )}
-              price={+bunElementHandler(selected, "price", "", "0")}
-              thumbnail={bunElementHandler(selected, "image", "", "")}
-            />
-          )}
-        </div>
+      </div>
+      <div className="ml-5">
+        {selected.length > 0 && (
+          <ConstructorElement
+            type="bottom"
+            isLocked={true}
+            text={bunElementHandler(
+              selected,
+              "name",
+              "(низ)",
+              "Выберите булку"
+            )}
+            price={+bunElementHandler(selected, "price", "", "0")}
+            thumbnail={bunElementHandler(selected, "image", "", "")}
+          />
+        )}
       </div>
       <div className={constructorStyles.price}>
         <div className={`${constructorStyles.total} m-5`}>

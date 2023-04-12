@@ -1,6 +1,5 @@
 import React, { Dispatch, useRef, SetStateAction, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { data as ingredients } from "../../utils/data";
 import IngredientCard from "./card/ingredient-card";
 import ingredientsStyles from "./burger-ingredients.module.css";
 import {
@@ -12,14 +11,13 @@ import {
 const BurgerIngredients = ({
   selected,
   setSelected,
+  ingredients,
 }: {
+  ingredients: IIngredient[];
   selected: IIngredient[];
   setSelected: Dispatch<SetStateAction<IIngredient[]>>;
 }) => {
-  const [current, setCurrent] = useState(
-    INGREDIENT_TYPE_TEXT[IngredientType.bun]
-  );
-
+  const [current, setCurrent] = useState(IngredientType.bun);
   const bunAnchor = useRef<null | HTMLDivElement>(null);
   const sauceAnchor = useRef<null | HTMLDivElement>(null);
   const mainAnchor = useRef<null | HTMLDivElement>(null);
@@ -30,15 +28,19 @@ const BurgerIngredients = ({
     setCurrent(current);
   };
 
-  const buns = ingredients.filter((item) => item.type === IngredientType.bun);
-  const sauces = ingredients.filter(
-    (item) => item.type === IngredientType.sauce
+  const buns = ingredients.filter(
+    (item: { type: IngredientType }) => item.type === IngredientType.bun
   );
-  const mains = ingredients.filter((item) => item.type === IngredientType.main);
+  const sauces = ingredients.filter(
+    (item: { type: IngredientType }) => item.type === IngredientType.sauce
+  );
+  const mains = ingredients.filter(
+    (item: { type: IngredientType }) => item.type === IngredientType.main
+  );
 
   return (
     <div className={ingredientsStyles["ingredients-container"]}>
-      <p className={`text text_type_main-large mt-10`}>Соберите бургер</p>
+      <p className={`text text_type_main-large mt-10 mb-5`}>Соберите бургер</p>
       <div className={`${ingredientsStyles.tabs}`}>
         <Tab
           value={IngredientType.bun}
@@ -69,11 +71,10 @@ const BurgerIngredients = ({
           </p>
         </div>
         <div className={ingredientsStyles["item-container"]}>
-          {buns?.map((bun) => {
+          {buns?.map((bun: IIngredient) => {
             return (
               <IngredientCard
                 key={bun._id}
-                // @ts-ignore
                 ingredient={bun}
                 selected={selected}
                 setSelected={setSelected}
@@ -87,11 +88,10 @@ const BurgerIngredients = ({
           </p>
         </div>
         <div className={ingredientsStyles["item-container"]}>
-          {sauces?.map((sauce) => {
+          {sauces?.map((sauce: IIngredient) => {
             return (
               <IngredientCard
                 key={sauce._id}
-                // @ts-ignore
                 ingredient={sauce}
                 selected={selected}
                 setSelected={setSelected}
@@ -105,11 +105,10 @@ const BurgerIngredients = ({
           </p>
         </div>
         <div className={ingredientsStyles["item-container"]}>
-          {mains?.map((main) => {
+          {mains?.map((main: IIngredient) => {
             return (
               <IngredientCard
                 key={main._id}
-                // @ts-ignore
                 ingredient={main}
                 selected={selected}
                 setSelected={setSelected}

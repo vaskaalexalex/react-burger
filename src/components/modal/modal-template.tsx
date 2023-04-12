@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-import ModalOverlay from "./modal-overlay";
+import ModalOverlay from "../modal-overlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import modalStyles from "./modal-template.module.css";
 
@@ -33,7 +33,7 @@ const Modal = ({
           className={`${modalStyles["modal-header"]} text text_type_main-medium`}
         >
           {title ? title : <div></div>}
-          <div style={{ cursor: "pointer" }}>
+          <div className={modalStyles["close-icon"]}>
             <CloseIcon type="primary" />
           </div>
         </div>

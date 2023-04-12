@@ -1,6 +1,6 @@
 import { IIngredient } from "../constants";
 import React, { Fragment } from "react";
-import cardsStyles from "../card/burger-ingredients-card.module.css";
+import cardsStyles from "./ingredients-modal.module.css";
 
 const IngredientDetails = ({ ingredient }: { ingredient: IIngredient }) => {
   const { name, image_large, calories, carbohydrates, fat, proteins } =
@@ -10,7 +10,7 @@ const IngredientDetails = ({ ingredient }: { ingredient: IIngredient }) => {
     <Fragment>
       <div className={`${cardsStyles["card"]} mt-6 mb-10`}>
         <div className={cardsStyles["card-image-container"]}>
-          <img alt="not" src={image_large}></img>
+          <img alt="not" src={image_large} />
         </div>
         <p
           className={`${cardsStyles["card-name"]} text text_type_main-medium mt-4 mb-8`}

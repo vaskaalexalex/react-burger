@@ -14,7 +14,7 @@ const IngredientCard = ({
   selected: IIngredient[];
   setSelected: Dispatch<SetStateAction<IIngredient[]>>;
 }) => {
-  const { name, image_large, price } = ingredient;
+  const { name, image, price } = ingredient;
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleModalOpen = () => {
@@ -35,7 +35,7 @@ const IngredientCard = ({
           className={cardsStyles["card-image-container"]}
           onClick={handleModalOpen}
         >
-          <img alt="not" src={image_large}></img>
+          <img alt="not" src={image}></img>
         </div>
         <div className={`${cardsStyles["card-price"]} mb-1 mt-1`}>
           <p className="text text_type_digits-small mr-2">{price}</p>
