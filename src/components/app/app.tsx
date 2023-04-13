@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./App.css";
+import "./app.css";
 import AppHeader from "../header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
@@ -11,7 +11,7 @@ function App() {
   const [ingredients, setIngredients] = useState<IIngredient[]>([]);
 
   useEffect(() => {
-    fetchIngredients().then((data) => setIngredients(data.data));
+    fetchIngredients().then(({ data }) => setIngredients(data));
   }, []);
 
   return (

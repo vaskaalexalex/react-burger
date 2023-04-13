@@ -8,19 +8,21 @@ import {
   IngredientType,
 } from "../constants";
 
+type BurgerIngredientsProps = {
+  selected: IIngredient[];
+  setSelected: Dispatch<SetStateAction<IIngredient[]>>;
+  ingredients: IIngredient[];
+};
+
 const BurgerIngredients = ({
   selected,
   setSelected,
   ingredients,
-}: {
-  ingredients: IIngredient[];
-  selected: IIngredient[];
-  setSelected: Dispatch<SetStateAction<IIngredient[]>>;
-}) => {
+}: BurgerIngredientsProps) => {
   const [current, setCurrent] = useState(IngredientType.bun);
-  const bunAnchor = useRef<null | HTMLDivElement>(null);
-  const sauceAnchor = useRef<null | HTMLDivElement>(null);
-  const mainAnchor = useRef<null | HTMLDivElement>(null);
+  const bunAnchor = useRef<HTMLDivElement>(null);
+  const sauceAnchor = useRef<HTMLDivElement>(null);
+  const mainAnchor = useRef<HTMLDivElement>(null);
 
   //TODO: types for ref and current
   const handleScroll = (ref: any, current: any): void => {

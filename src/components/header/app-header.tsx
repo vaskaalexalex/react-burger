@@ -18,7 +18,7 @@ const AppHeader = (): JSX.Element => {
               className="text text_type_main-default text_color_primary ml-2"
             >
               <BurgerIcon type="primary" />
-              <div className="text text_type_main-default text_color_inactive ml-2">
+              <div className="text text_type_main-default text_color_active ml-2">
                 Конструктор
               </div>
             </a>

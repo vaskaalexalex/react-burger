@@ -4,15 +4,13 @@ import ModalOverlay from "../modal-overlay/modal-overlay";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import modalStyles from "./modal-template.module.css";
 
-const Modal = ({
-  children,
-  onClose,
-  title,
-}: {
+type ModalProps = {
   children: JSX.Element;
   onClose: () => void;
   title: string;
-}) => {
+};
+
+const Modal = ({ children, onClose, title = "" }: ModalProps) => {
   useEffect(() => {
     const closeOnESC = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -32,7 +30,7 @@ const Modal = ({
         <div
           className={`${modalStyles["modal-header"]} text text_type_main-medium`}
         >
-          {title ? title : <div></div>}
+          {title}
           <div className={modalStyles["close-icon"]}>
             <CloseIcon type="primary" />
           </div>

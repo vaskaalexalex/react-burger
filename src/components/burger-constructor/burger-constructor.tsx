@@ -24,20 +24,16 @@ const BurgerConstructor = ({ selected }: { selected: IIngredient[] }) => {
 
   const bunElementHandler = (
     chosenIngredients: IIngredient[],
-    property: string,
+    property: keyof IIngredient,
     trueValue: string,
     falseValue: string
-  ) =>
-    chosenIngredients.find(
+  ) => {
+    const bun = chosenIngredients.find(
       (ingredient: IIngredient) => ingredient.type === IngredientType.bun
-    )
-      ? `${
-          // @ts-ignore
-          chosenIngredients.find(
-            (ingredient: IIngredient) => ingredient.type === IngredientType.bun
-          )[property]
-        } ${trueValue}`
-      : falseValue;
+    );
+
+    return bun ? `${bun[property]} ${trueValue}` : falseValue;
+  };
 
   useEffect(() => {
     const totalPrice = selected.reduce(
