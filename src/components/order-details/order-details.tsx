@@ -3,10 +3,12 @@ import { ReactComponent as AcceptBg } from "../../images/accpet-bg.svg";
 import totalStyles from "./orded-details.module.css";
 
 const OrderDetails = () => {
+  const orderNumber = Math.floor(Math.random() * 1000000);
+
   return (
     <div className={totalStyles.total}>
       <div className={`${totalStyles.number} text text_type_digits-large`}>
-        {Math.floor(Math.random() * 1000000)}
+        {orderNumber}
       </div>
       <div className={`${totalStyles.identifier} text text_type_main-default"`}>
         идентификатор заказа

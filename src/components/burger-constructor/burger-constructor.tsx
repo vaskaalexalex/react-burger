@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   ConstructorElement,
   Button,
@@ -35,7 +35,7 @@ const BurgerConstructor = ({ selected }: { selected: IIngredient[] }) => {
     return bun ? `${bun[property]} ${trueValue}` : falseValue;
   };
 
-  useEffect(() => {
+  useMemo(() => {
     const totalPrice = selected.reduce(
       (acc: number, item: IIngredient) =>
         acc + item.price * (item.type === IngredientType.bun ? 2 : 1),

@@ -1,4 +1,4 @@
-import React, { Dispatch, Fragment, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import cardsStyles from "./burger-ingredients-card.module.css";
 import Modal from "../../modal/modal-template";
@@ -12,7 +12,7 @@ const IngredientCard = ({
 }: {
   ingredient: IIngredient;
   selected: IIngredient[];
-  setSelected: Dispatch<SetStateAction<IIngredient[]>>;
+  setSelected: (items: IIngredient[]) => void;
 }) => {
   const { name, image, price } = ingredient;
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,11 +25,15 @@ const IngredientCard = ({
     setIsModalOpen(false);
   };
 
+  const handleAddIngredient = () => {
+    setSelected([...selected, ingredient]);
+  };
+
   return (
-    <Fragment>
+    <>
       <div
         className={`${cardsStyles["card"]} mt-6 mb-10`}
-        onClick={() => setSelected([...selected, ingredient])}
+        onClick={handleAddIngredient}
       >
         <div
           className={cardsStyles["card-image-container"]}
@@ -50,7 +54,7 @@ const IngredientCard = ({
           <ModalIngredient ingredient={ingredient} />
         </Modal>
       )}
-    </Fragment>
+    </>
   );
 };
 

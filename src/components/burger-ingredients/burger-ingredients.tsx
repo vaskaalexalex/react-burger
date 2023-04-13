@@ -1,4 +1,4 @@
-import React, { Dispatch, useRef, SetStateAction, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngredientCard from "./card/ingredient-card";
 import ingredientsStyles from "./burger-ingredients.module.css";
@@ -10,7 +10,7 @@ import {
 
 type BurgerIngredientsProps = {
   selected: IIngredient[];
-  setSelected: Dispatch<SetStateAction<IIngredient[]>>;
+  setSelected: (items: IIngredient[]) => void;
   ingredients: IIngredient[];
 };
 
