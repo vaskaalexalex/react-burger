@@ -1,123 +1,98 @@
-import React, { useRef, useState } from "react";
-import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import React, { useCallback, useMemo, useRef } from "react";
 import IngredientCard from "./card/ingredient-card";
 import ingredientsStyles from "./burger-ingredients.module.css";
-import {
-  IIngredient,
-  INGREDIENT_TYPE_TEXT,
-  IngredientType,
-} from "../constants";
+import { IIngredient, IngredientType, Tabs } from "../constants";
+import { useDispatch, useSelector } from "react-redux";
+import { IngredientsTabs } from "./tabs/ingredient-tabs";
+import { addDataToModal } from "../../services/reducers/ingredients-details";
 
-type BurgerIngredientsProps = {
-  selected: IIngredient[];
-  setSelected: (items: IIngredient[]) => void;
-  ingredients: IIngredient[];
-};
+interface CounterType extends Record<string, any> {
+  id?: number;
+}
 
-const BurgerIngredients = ({
-  selected,
-  setSelected,
-  ingredients,
-}: BurgerIngredientsProps) => {
-  const [current, setCurrent] = useState(IngredientType.bun);
-  const bunAnchor = useRef<HTMLDivElement>(null);
-  const sauceAnchor = useRef<HTMLDivElement>(null);
-  const mainAnchor = useRef<HTMLDivElement>(null);
-
-  //TODO: types for ref and current
-  const handleScroll = (ref: any, current: any): void => {
-    ref.current.scrollIntoView({ behavior: "smooth" });
-    setCurrent(current);
-  };
-
-  const buns = ingredients.filter(
-    (item: { type: IngredientType }) => item.type === IngredientType.bun
+const BurgerIngredients = () => {
+  const dispatch = useDispatch();
+  const tabsRef = useRef<HTMLDivElement>(null);
+  const ingredients = useSelector(
+    (state: any) => state.burgerIngredients.ingredients
   );
-  const sauces = ingredients.filter(
-    (item: { type: IngredientType }) => item.type === IngredientType.sauce
+
+  const constructorIngredients = useSelector(
+    (state: any) => state.constructorIngredients
   );
-  const mains = ingredients.filter(
-    (item: { type: IngredientType }) => item.type === IngredientType.main
+
+  const buns = useMemo(
+    () =>
+      ingredients.filter(
+        (ingredient: IIngredient) => ingredient.type === IngredientType.bun
+      ),
+    [ingredients]
+  );
+
+  const mains = useMemo(
+    () =>
+      ingredients.filter(
+        (ingredient: IIngredient) => ingredient.type === IngredientType.main
+      ),
+    [ingredients]
+  );
+
+  const sauces = useMemo(
+    () =>
+      ingredients.filter(
+        (ingredient: IIngredient) => ingredient.type === IngredientType.sauce
+      ),
+    [ingredients]
+  );
+
+  const ingredientsCategories = [buns, sauces, mains];
+
+  const ingredientsCounter = useMemo(() => {
+    const { bun, ingredients } = constructorIngredients;
+    const counters: CounterType = {};
+    ingredients.forEach((ingredient: IIngredient) => {
+      if (!counters[ingredient._id]) counters[ingredient._id] = 0;
+      counters[ingredient._id]++;
+    });
+    if (bun) counters[bun._id] = 2;
+    return counters;
+  }, [constructorIngredients]);
+
+  const modalData = useCallback(
+    (ingredient: IIngredient) => () => {
+      const modalData = {
+        modalImage: ingredient.image_large,
+        modalName: ingredient.name,
+        modalCalories: ingredient.calories,
+        modalProteins: ingredient.price,
+        modalFat: ingredient.fat,
+        modalCarbohydrates: ingredient.carbohydrates,
+      };
+      dispatch(addDataToModal(modalData));
+    },
+    [dispatch]
   );
 
   return (
     <div className={ingredientsStyles["ingredients-container"]}>
       <p className={`text text_type_main-large mt-10 mb-5`}>Соберите бургер</p>
-      <div className={`${ingredientsStyles.tabs}`}>
-        <Tab
-          value={IngredientType.bun}
-          active={current === IngredientType.bun}
-          onClick={() => handleScroll(bunAnchor, IngredientType.bun)}
-        >
-          {INGREDIENT_TYPE_TEXT[IngredientType.bun]}
-        </Tab>
-        <Tab
-          value={IngredientType.sauce}
-          active={current === IngredientType.sauce}
-          onClick={() => handleScroll(sauceAnchor, IngredientType.sauce)}
-        >
-          {INGREDIENT_TYPE_TEXT[IngredientType.sauce]}
-        </Tab>
-        <Tab
-          value={IngredientType.main}
-          active={current === IngredientType.main}
-          onClick={() => handleScroll(mainAnchor, IngredientType.main)}
-        >
-          {INGREDIENT_TYPE_TEXT[IngredientType.main]}
-        </Tab>
-      </div>
-      <div className={`${ingredientsStyles["ingredients"]} custom-scroll`}>
-        <div ref={bunAnchor}>
-          <p className={`text text_type_main-medium mt-10`}>
-            {INGREDIENT_TYPE_TEXT[IngredientType.bun]}
-          </p>
-        </div>
-        <div className={ingredientsStyles["item-container"]}>
-          {buns?.map((bun: IIngredient) => {
-            return (
-              <IngredientCard
-                key={bun._id}
-                ingredient={bun}
-                selected={selected}
-                setSelected={setSelected}
-              />
-            );
-          })}
-        </div>
-        <div ref={sauceAnchor}>
-          <p className={`text text_type_main-medium mt-10`}>
-            {INGREDIENT_TYPE_TEXT[IngredientType.sauce]}
-          </p>
-        </div>
-        <div className={ingredientsStyles["item-container"]}>
-          {sauces?.map((sauce: IIngredient) => {
-            return (
-              <IngredientCard
-                key={sauce._id}
-                ingredient={sauce}
-                selected={selected}
-                setSelected={setSelected}
-              />
-            );
-          })}
-        </div>
-        <div ref={mainAnchor}>
-          <p className={`text text_type_main-medium mt-10`}>
-            {INGREDIENT_TYPE_TEXT[IngredientType.main]}
-          </p>
-        </div>
-        <div className={ingredientsStyles["item-container"]}>
-          {mains?.map((main: IIngredient) => {
-            return (
-              <IngredientCard
-                key={main._id}
-                ingredient={main}
-                selected={selected}
-                setSelected={setSelected}
-              />
-            );
-          })}
-        </div>
+      <IngredientsTabs tabsRef={tabsRef} />
+      <div className={ingredientsStyles["item-container"]} ref={tabsRef}>
+        {Tabs.map((tab, index) => (
+          <section key={tab._id} className={`${tab._id}`}>
+            <p className={`text text_type_main-medium`}>{tab.name}</p>
+            <div className={ingredientsStyles["item-container"]}>
+              {ingredientsCategories[index].map((ingredient: IIngredient) => (
+                <IngredientCard
+                  key={ingredient._id}
+                  ingredient={ingredient}
+                  onClick={modalData(ingredient)}
+                  counter={ingredientsCounter[ingredient._id]}
+                />
+              ))}
+            </div>
+          </section>
+        ))}
       </div>
     </div>
   );

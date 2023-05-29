@@ -1,44 +1,32 @@
-import React, { useState } from "react";
+import React from "react";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import cardsStyles from "./burger-ingredients-card.module.css";
-import Modal from "../../modal/modal-template";
-import ModalIngredient from "../../ingredient-details/ingredient-details";
 import { IIngredient } from "../../constants";
+import { useDrag } from "react-dnd";
+import { IngredientCounter } from "./ingredient-counter/ingredient-counter";
+
+interface IngredientCardProps {
+  counter: number;
+  ingredient: IIngredient;
+  onClick: () => void;
+}
 
 const IngredientCard = ({
+  counter,
   ingredient,
-  setSelected,
-  selected,
-}: {
-  ingredient: IIngredient;
-  selected: IIngredient[];
-  setSelected: (items: IIngredient[]) => void;
-}) => {
+  onClick,
+}: IngredientCardProps) => {
   const { name, image, price } = ingredient;
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleAddIngredient = () => {
-    setSelected([...selected, ingredient]);
-  };
+  const [, dragRef] = useDrag({
+    type: "ingredient",
+    item: ingredient,
+  });
 
   return (
     <>
-      <div
-        className={`${cardsStyles["card"]} mt-6 mb-10`}
-        onClick={handleAddIngredient}
-      >
-        <div
-          className={cardsStyles["card-image-container"]}
-          onClick={handleModalOpen}
-        >
+      <div className={`${cardsStyles["card"]} mt-6 mb-10`} ref={dragRef}>
+        <div className={cardsStyles["card-image-container"]} onClick={onClick}>
           <img alt="not" src={image}></img>
         </div>
         <div className={`${cardsStyles["card-price"]} mb-1 mt-1`}>
@@ -49,11 +37,7 @@ const IngredientCard = ({
           {name}
         </p>
       </div>
-      {isModalOpen && (
-        <Modal onClose={handleModalClose} title="Добавить ингридиент">
-          <ModalIngredient ingredient={ingredient} />
-        </Modal>
-      )}
+      <IngredientCounter count={counter} />
     </>
   );
 };
