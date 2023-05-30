@@ -1,7 +1,7 @@
 import { memo, useMemo, FC } from "react";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import styles from "../burger-item.module.css";
+import itemStyles from "../burger-item.module.css";
 import { IIngredient } from "../../constants";
 
 interface BurgerConstructorItemTypes {
@@ -34,9 +34,9 @@ const BurgerBunItem: FC<BurgerConstructorItemTypes> = memo(
 
     return (
       <>
-        <div className={styles["ingredient-outer"] + " noselect"}>
+        <div className={itemStyles["ingredient-outer"]}>
           <div
-            className={styles["constructor-element-wrapper"]}
+            className={itemStyles["constructor-element"]}
             data-testid={bunType + ingredient._id}
           >
             <ConstructorElement

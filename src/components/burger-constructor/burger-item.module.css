@@ -10,10 +10,10 @@
     align-items: center;
     justify-content: flex-start;
     width: calc(100% - 32px);
-    margin-left: 48px;
+    margin-left: 25px;
 }
 
-._draggable {
+.draggable {
     cursor: move;
     display: flex;
     justify-content: center;
@@ -24,4 +24,8 @@
 li {
     list-style-type: none;
 }
+.constructor-element {
+    width: 100%;
+}
+
 

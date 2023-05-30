@@ -2,22 +2,22 @@ import React, { useCallback, useMemo, useRef } from "react";
 import IngredientCard from "./card/ingredient-card";
 import ingredientsStyles from "./burger-ingredients.module.css";
 import { IIngredient, IngredientType, Tabs } from "../constants";
-import { useDispatch, useSelector } from "react-redux";
 import { IngredientsTabs } from "./tabs/ingredient-tabs";
 import { addDataToModal } from "../../services/reducers/ingredients-details";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 
 interface CounterType extends Record<string, any> {
   id?: number;
 }
 
 const BurgerIngredients = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const tabsRef = useRef<HTMLDivElement>(null);
-  const ingredients = useSelector(
+  const ingredients = useAppSelector(
     (state: any) => state.burgerIngredients.ingredients
   );
 
-  const constructorIngredients = useSelector(
+  const constructorIngredients = useAppSelector(
     (state: any) => state.constructorIngredients
   );
 
@@ -77,22 +77,25 @@ const BurgerIngredients = () => {
     <div className={ingredientsStyles["ingredients-container"]}>
       <p className={`text text_type_main-large mt-10 mb-5`}>Соберите бургер</p>
       <IngredientsTabs tabsRef={tabsRef} />
-      <div className={ingredientsStyles["item-container"]} ref={tabsRef}>
-        {Tabs.map((tab, index) => (
-          <section key={tab._id} className={`${tab._id}`}>
-            <p className={`text text_type_main-medium`}>{tab.name}</p>
-            <div className={ingredientsStyles["item-container"]}>
-              {ingredientsCategories[index].map((ingredient: IIngredient) => (
-                <IngredientCard
-                  key={ingredient._id}
-                  ingredient={ingredient}
-                  onClick={modalData(ingredient)}
-                  counter={ingredientsCounter[ingredient._id]}
-                />
-              ))}
-            </div>
-          </section>
-        ))}
+
+      <div className={`${ingredientsStyles["ingredients"]} custom-scroll`}>
+        <div className={ingredientsStyles["components"]} ref={tabsRef}>
+          {Tabs.map((tab, index) => (
+            <section key={tab._id} className={`${tab._id}`}>
+              <p className={`text text_type_main-medium`}>{tab.name}</p>
+              <div className={ingredientsStyles["item-container"]}>
+                {ingredientsCategories[index].map((ingredient: IIngredient) => (
+                  <IngredientCard
+                    key={ingredient._id}
+                    ingredient={ingredient}
+                    onClick={modalData(ingredient)}
+                    counter={ingredientsCounter[ingredient._id]}
+                  />
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
       </div>
     </div>
   );

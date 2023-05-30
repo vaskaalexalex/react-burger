@@ -1,5 +1,13 @@
 .ingredients-container {
     overflow: hidden;
+    margin-top: 100px;
+}
+
+.ingredients {
+    height: calc(100vh - 244px);
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 .tabs {
@@ -7,9 +15,8 @@
     z-index: 2;
 }
 
-.ingredients {
-    height: calc(100vh - 244px);
-    overflow-y: scroll;
+.components {
+    overflow-y: auto;
     scroll-behavior: smooth;
     overflow-x: hidden;
 }

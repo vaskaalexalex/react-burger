@@ -1,12 +1,10 @@
 import { memo, useRef, FC } from "react";
 import { useDrag, useDrop } from "react-dnd";
-
 import {
   ConstructorElement,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-
-import styles from "../burger-item.module.css";
+import itemStyles from "../burger-item.module.css";
 import { IIngredient } from "../../constants";
 
 interface IBurgerContent {
@@ -22,11 +20,11 @@ const BurgerContent: FC<IBurgerContent> = memo(
   ({ ingredient, draggable, index, bottomPadding, moveCard, handleClose }) => {
     const ref = useRef<HTMLDivElement>(null);
     const dropRef = useRef<HTMLDivElement>(null);
-    const [{ beingDragged }, drag, dragPreview] = useDrag({
+    const [{ isDrag }, drag, dragPreview] = useDrag({
       type: "sorting",
       item: ingredient,
       collect: (monitor) => ({
-        beingDragged: monitor.isDragging(),
+        isDrag: monitor.isDragging(),
       }),
     });
 
@@ -73,12 +71,17 @@ const BurgerContent: FC<IBurgerContent> = memo(
     drag(ref);
     dragPreview(dropRef);
 
-    const opacity = beingDragged ? 0 : 1;
+    const opacity = isDrag ? 0 : 1;
+    if (!ingredient) {
+      return null;
+    }
 
     return (
       <>
         <div
-          className={`${styles["ingredient"]} ${bottomPadding ? "mb-4" : ""}`}
+          className={`${itemStyles["ingredient"]} ${
+            bottomPadding ? "mb-4" : ""
+          }`}
           ref={dropRef}
           style={{ opacity }}
         >
@@ -86,13 +89,13 @@ const BurgerContent: FC<IBurgerContent> = memo(
             <div
               ref={ref}
               data-handler-id={handlerId}
-              className={styles["_draggable"]}
+              className={itemStyles["draggable"]}
             >
               <DragIcon type="primary" />
             </div>
           )}
 
-          <div className={styles["constructor-element-wrapper"] + " noselect"}>
+          <div className={itemStyles["constructor-element"]}>
             <ConstructorElement
               text={ingredient.name}
               price={ingredient.price}

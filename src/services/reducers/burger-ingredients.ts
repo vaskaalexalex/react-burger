@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { fetchIngredients } from "../../utils/api";
+import { getIngredients } from "../../utils/api";
 import { IIngredient } from "../../components/constants";
 
 interface ISliceState {
@@ -14,10 +14,10 @@ export const initialState: ISliceState = {
   error: "",
 };
 
-export const getIngredients = createAsyncThunk(
+export const fetchIngredients = createAsyncThunk(
   "ingredients/fetchIngredients",
   async () => {
-    const response = await fetchIngredients();
+    const response = await getIngredients();
     return response;
   }
 );
@@ -28,14 +28,15 @@ export const allIngredients = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(getIngredients.pending, (state) => {
+      .addCase(fetchIngredients.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(getIngredients.fulfilled, (state, action) => {
+      .addCase(fetchIngredients.fulfilled, (state, action) => {
         state.status = "succeeded";
+        state.ingredients = [];
         state.ingredients = state.ingredients.concat(action.payload);
       })
-      .addCase(getIngredients.rejected, (state, action) => {
+      .addCase(fetchIngredients.rejected, (state, action) => {
         state.status = "failed";
         if (action.error.message) state.error = action.error.message;
       });

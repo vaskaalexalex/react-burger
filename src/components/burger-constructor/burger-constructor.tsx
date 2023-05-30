@@ -1,14 +1,10 @@
 import React, { useCallback, useMemo, useRef, useState } from "react";
-import {
-  Button,
-  CurrencyIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import constructorStyles from "./burger-constructor.module.css";
-import { IIngredient } from "../constants";
+import { IIngredient, IngredientType } from "../constants";
 import Modal from "../modal/modal-template";
 import ModalTotal from "../order-details/order-details";
-import { useDispatch, useSelector } from "react-redux";
 import {
   addIngredient,
   addOrReplaceBun,
@@ -21,14 +17,17 @@ import { useDrop } from "react-dnd";
 import { getOrderNumber } from "../../services/reducers/order-details";
 import { BurgerBunItem } from "./burger-bun/burger-bun";
 import { BurgerContent } from "./burger-content/burger-content";
+import { TotalPrice } from "../total-price/total-price";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
 
 const BurgerConstructor = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const dropRef = useRef<HTMLUListElement>(null);
-  const { ingredients, bun } = useSelector(
+  const { ingredients, bun } = useAppSelector(
     (state: any) => state.constructorIngredients
   );
+
   function closeModal() {
     setIsModalOpen(false);
     dispatch(resetState());
@@ -78,100 +77,82 @@ const BurgerConstructor = () => {
   };
 
   const price = useMemo(() => {
-    return (
-      (bun.price ? bun.price * 2 : 0) +
-      ingredients.reduce(
-        ({ s, v }: { s: number; v: IIngredient }) => s + v.price,
-        0
-      )
+    return ingredients.reduce(
+      (acc: number, item: IIngredient) =>
+        acc + item.price * (item.type === IngredientType.bun ? 2 : 1),
+      0
     );
   }, [bun.price, ingredients]);
 
   return (
-    <>
+    <div
+      className={`${constructorStyles["constructor-wrapper"]} custom-scroll`}
+      ref={dropTarget}
+    >
       <div
-        className={`${constructorStyles["constructor-wrapper"]}`}
+        key="burger-constructor"
         ref={dropTarget}
+        style={{ borderColor: borderColor }}
+        className={constructorStyles["burger-constructor"]}
       >
-        <div
-          key="burger-constructor"
-          ref={dropTarget}
-          data-testid="constructor-drop-target"
-          style={{ borderColor: borderColor }}
-          className={constructorStyles["burger-constructor"]}
-        >
-          {ingredients.length !== 0 || bun.price !== 0 ? (
-            <>
-              <BurgerBunItem
-                place={"top"}
-                ingredient={bun}
-                handleClose={deleteBun}
-              />
-              <ul className={constructorStyles["inner_style"]} ref={dropRef}>
-                {ingredients.map(
-                  ({
-                    ingredient,
-                    index,
-                  }: {
-                    ingredient: IIngredient;
-                    index: number;
-                  }) => {
-                    const newItem = {
-                      ...ingredient,
-                      index: index,
-                    };
-                    const lastIndex = index === ingredients!.length - 1;
-                    return (
-                      <BurgerContent
-                        bottomPadding={!lastIndex}
-                        key={newItem.uniqueId}
-                        index={index}
-                        moveCard={moveCard}
-                        ingredient={newItem}
-                        draggable={true}
-                        handleClose={deleteIngredient(newItem)}
-                      />
-                    );
-                  }
-                )}
-              </ul>
-              <BurgerBunItem
-                place={"bottom"}
-                ingredient={bun}
-                handleClose={deleteBun}
-              />
-            </>
-          ) : (
-            <div className={constructorStyles["helper"]}>
-              <div
-                className={`${constructorStyles["helper_shadow"]} text text_type_main-large mb-30 mt-30`}
-              >
-                Перетащите сюда ингредиент
-              </div>
+        {ingredients.length !== 0 || bun.price !== 0 ? (
+          <>
+            <BurgerBunItem
+              place={"top"}
+              ingredient={bun}
+              handleClose={deleteBun}
+            />
+            <ul className={`${constructorStyles.item}`} ref={dropRef}>
+              {ingredients.map((item: IIngredient, index: number) => {
+                const lastIndex = index === ingredients.length - 1;
+                return (
+                  <BurgerContent
+                    bottomPadding={!lastIndex}
+                    key={item.uniqueId}
+                    index={index}
+                    moveCard={moveCard}
+                    ingredient={item}
+                    draggable={true}
+                    handleClose={deleteIngredient(item)}
+                  />
+                );
+              })}
+            </ul>
+            <BurgerBunItem
+              place={"bottom"}
+              ingredient={bun}
+              handleClose={deleteBun}
+            />
+          </>
+        ) : (
+          <div className={constructorStyles["helper"]}>
+            <div
+              className={`${constructorStyles["helper_shadow"]} text text_type_main-large mb-30 mt-30`}
+            >
+              Перетащите сюда ингредиент
             </div>
-          )}
-        </div>
-        <div className={constructorStyles.price}>
-          <div className={`${constructorStyles.total} m-5`}>
-            <p className="text text_type_digits-medium m-5">{price}</p>
-            <CurrencyIcon type="primary" />
           </div>
-          <Button
-            htmlType="button"
-            type="primary"
-            size="medium"
-            onClick={createOrder}
-          >
-            Заказать
-          </Button>
-        </div>
-        {isModalOpen && (
-          <Modal onClose={closeModal} title="">
-            <ModalTotal />
-          </Modal>
         )}
       </div>
-    </>
+      <div className={constructorStyles.price}>
+        <div className={`${constructorStyles.total}`}>
+          <TotalPrice price={price} size={"medium"} />
+        </div>
+        <Button
+          htmlType="button"
+          type="primary"
+          size="medium"
+          onClick={createOrder}
+        >
+          Заказать
+        </Button>
+      </div>
+      {isModalOpen && (
+        <Modal onClose={closeModal} title="">
+          <ModalTotal />
+        </Modal>
+      )}
+    </div>
   );
 };
 

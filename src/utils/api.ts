@@ -17,7 +17,7 @@ const checkSuccess = (
       };
 };
 
-export const fetchIngredients = async (): Promise<IIngredient[]> => {
+export const getIngredients = async (): Promise<IIngredient[]> => {
   const res = await fetch(`${BURGER_API_URL}/ingredients`);
   const data = await checkResponse(res);
   return checkSuccess(data, data.data);

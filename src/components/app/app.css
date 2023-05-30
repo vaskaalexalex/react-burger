@@ -1,12 +1,11 @@
-.App {
-  height: 100vh;
+.app {
+  height: 100%;
   width: 100%;
   overflow: hidden;
 }
 
 .body {
   display: grid;
-  margin-top: 100px;
   align-items: center;
   grid-template-columns: 600px 600px;
   justify-content: center;

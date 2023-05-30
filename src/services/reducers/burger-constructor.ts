@@ -55,12 +55,6 @@ export const constructorIngredients = createSlice({
         uniqueId: action.payload.uniqueId,
       });
     },
-    loadDataFromLocalStorage: (
-      state: ISliceState,
-      action: PayloadAction<ISliceState>
-    ) => {
-      return (state = action.payload);
-    },
     removeIngredient: (
       state: ISliceState,
       action: PayloadAction<IIngredient>
@@ -97,7 +91,6 @@ export const constructorIngredients = createSlice({
 
 export const {
   addIngredient,
-  loadDataFromLocalStorage,
   removeIngredient,
   moveIngredient,
   addOrReplaceBun,
