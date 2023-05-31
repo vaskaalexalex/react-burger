@@ -1,31 +1,43 @@
 import { IIngredient } from "../components/constants";
 
-const BURGER_API_URL = "https://norma.nomoreparties.space/api";
+export const BASE_URL = "https://norma.nomoreparties.space/api/";
 
-const checkResponse = (res: Response): Promise<any> => {
-  return res.ok ? res.json() : res.json().then((err) => Promise.reject(err));
+interface ErrorResponse {
+  message: string;
+}
+
+const checkResponse = async <T>(res: Response): Promise<T> => {
+  if (res.ok) {
+    return res.json();
+  }
+  const error: ErrorResponse = await res.json();
+  throw new Error(`Request failed with status ${res.status}: ${error.message}`);
 };
 
-const checkSuccess = (
-  data: { success: string; data: any },
-  returnData: any
-) => {
-  return data.success
-    ? returnData
-    : () => {
-        throw new Error("Апи не работает");
-      };
+const checkSuccess = (res: any) => {
+  if (res && res.success) {
+    return res;
+  }
+  return Promise.reject(`Ответ не success: ${res}`);
 };
 
-export const getIngredients = async (): Promise<IIngredient[]> => {
-  const res = await fetch(`${BURGER_API_URL}/ingredients`);
-  const data = await checkResponse(res);
-  return checkSuccess(data, data.data);
+const request = async <T>(
+  endpoint: string,
+  options?: RequestInit
+): Promise<T> => {
+  const response = await fetch(`${BASE_URL}${endpoint}`, options);
+  const data = await checkResponse<T>(response);
+  return checkSuccess(data);
 };
+
+export const getIngredients = (): Promise<IIngredient[]> =>
+  request<{ data: IIngredient[] }>("ingredients").then(
+    (response) => response.data
+  );
 
 export const addOrderRequest = async (data: any) => {
   try {
-    const response = await fetch(`${BURGER_API_URL}/orders`, {
+    const response = await fetch(`${BASE_URL}orders`, {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
