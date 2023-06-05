@@ -25,13 +25,13 @@ const Modal = ({ children, onClose, title = "" }: ModalProps) => {
   }, [onClose]);
 
   return ReactDOM.createPortal(
-    <ModalOverlay onClose={onClose}>
+    <ModalOverlay>
       <div className={modalStyles.modal}>
         <div
           className={`${modalStyles["modal-header"]} text text_type_main-medium`}
         >
           {title}
-          <div className={modalStyles["close-icon"]}>
+          <div className={modalStyles["close-icon"]} onClick={onClose}>
             <CloseIcon type="primary" />
           </div>
         </div>

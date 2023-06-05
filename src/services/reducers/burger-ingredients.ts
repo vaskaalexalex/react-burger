@@ -16,10 +16,7 @@ export const initialState: ISliceState = {
 
 export const fetchIngredients = createAsyncThunk(
   "ingredients/fetchIngredients",
-  async () => {
-    const response = await getIngredients();
-    return response;
-  }
+  getIngredients
 );
 
 export const allIngredients = createSlice({

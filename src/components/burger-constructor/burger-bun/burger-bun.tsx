@@ -40,6 +40,7 @@ const BurgerBunItem: FC<BurgerConstructorItemTypes> = memo(
             data-testid={bunType + ingredient._id}
           >
             <ConstructorElement
+              isLocked
               type={bunType}
               text={ingredient.name + bunName}
               price={ingredient.price}

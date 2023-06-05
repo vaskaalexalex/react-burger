@@ -35,17 +35,14 @@ export const getIngredients = (): Promise<IIngredient[]> =>
     (response) => response.data
   );
 
-export const addOrderRequest = async (data: any) => {
-  try {
-    const response = await fetch(`${BASE_URL}orders`, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    return await response.json();
-  } catch (error) {
-    console.log(error);
-  }
+export const addOrderRequest = (data: any): any => {
+  console.log(data);
+  const requestParams = {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  request<any>("ingredients", requestParams).then((response) => response.data);
 };

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import constructorStyles from "./burger-constructor.module.css";
@@ -18,18 +18,18 @@ import { getOrderNumber } from "../../services/reducers/order-details";
 import { BurgerBunItem } from "./burger-bun/burger-bun";
 import { BurgerContent } from "./burger-content/burger-content";
 import { TotalPrice } from "../total-price/total-price";
-import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { useAppDispatch, useAppSelector, useModal } from "../../services/hooks";
 
 const BurgerConstructor = () => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const { isModalOpen, openModal, closeModal } = useModal();
   const dispatch = useAppDispatch();
   const dropRef = useRef<HTMLUListElement>(null);
   const { ingredients, bun } = useAppSelector(
     (state: any) => state.constructorIngredients
   );
 
-  function closeModal() {
-    setIsModalOpen(false);
+  function closePortal() {
+    closeModal();
     dispatch(resetState());
   }
 
@@ -67,12 +67,12 @@ const BurgerConstructor = () => {
   );
 
   const createOrder = () => {
-    setIsModalOpen(true);
+    openModal();
     dispatch(
       getOrderNumber({
         ingredients: ingredients,
         bun: bun,
-      }) as any
+      })
     );
   };
 
@@ -83,6 +83,8 @@ const BurgerConstructor = () => {
       0
     );
   }, [bun.price, ingredients]);
+
+  console.log(!(ingredients.length && bun._id));
 
   return (
     <div
@@ -143,12 +145,13 @@ const BurgerConstructor = () => {
           type="primary"
           size="medium"
           onClick={createOrder}
+          disabled={!(ingredients.length && bun._id)}
         >
           Заказать
         </Button>
       </div>
       {isModalOpen && (
-        <Modal onClose={closeModal} title="">
+        <Modal onClose={closePortal} title="">
           <ModalTotal />
         </Modal>
       )}
