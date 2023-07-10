@@ -20,50 +20,61 @@ const BurgerContent: FC<IBurgerContent> = memo(
   ({ ingredient, draggable, index, bottomPadding, moveCard, handleClose }) => {
     const ref = useRef<HTMLDivElement>(null);
     const dropRef = useRef<HTMLDivElement>(null);
+
     const [{ isDrag }, drag, dragPreview] = useDrag({
       type: "sorting",
-      item: ingredient,
+      item: { id: ingredient._id, index },
       collect: (monitor) => ({
         isDrag: monitor.isDragging(),
       }),
     });
 
-    const [{ handlerId }, drop] = useDrop<
-      IIngredient,
+    const [{ handlerId, isOver }, drop] = useDrop<
+      { id: string; index: number },
       void,
-      { handlerId: any }
+      { handlerId: string; isOver: boolean }
     >({
       accept: "sorting",
       collect: (monitor) => ({
-        handlerId: monitor.getHandlerId(),
+        handlerId: monitor.getHandlerId() as string,
+        isOver: monitor.isOver(),
       }),
-      hover(item: IIngredient) {
-        if (dropRef === undefined) {
-          return;
-        }
-        if (!dropRef.current) {
-          return;
-        }
-        const dragIndex = item.index;
-        const hoverIndex = index;
+      hover(item: { id: string; index: number }, monitor) {
+        if (dropRef.current) {
+          const hoverIndex = index;
+          const dragIndex = item.index;
 
-        if (hoverIndex === undefined) {
-          return;
-        }
+          if (dragIndex === hoverIndex) {
+            return;
+          }
 
-        if (dragIndex === undefined) {
-          return;
-        }
+          const hoverBoundingRect = dropRef.current.getBoundingClientRect();
 
-        if (dragIndex === hoverIndex) {
-          return;
-        }
+          const hoverMiddleY =
+            (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
-        if (moveCard) {
-          moveCard(dragIndex, hoverIndex);
-        }
+          const clientOffset = monitor.getClientOffset();
 
-        item.index = hoverIndex;
+          if (!clientOffset) {
+            return;
+          }
+
+          const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+          if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+            return;
+          }
+
+          if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+            return;
+          }
+
+          if (moveCard) {
+            moveCard(dragIndex, hoverIndex);
+          }
+
+          item.index = hoverIndex;
+        }
       },
     });
 

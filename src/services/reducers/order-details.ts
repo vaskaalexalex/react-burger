@@ -30,9 +30,7 @@ export const getOrderNumber = createAsyncThunk(
       headers: {
         "Content-Type": "application/json",
       },
-      body: {
-        ingredients: [bun._id, ...ingredients.map(({ _id }) => _id)],
-      },
+      ingredients: [bun._id, ...ingredients.map(({ _id }) => _id)],
     };
 
     const response = await addOrderRequest(requestOptions);

@@ -44,5 +44,5 @@ export const addOrderRequest = (data: any): any => {
       "Content-Type": "application/json",
     },
   };
-  request<any>("ingredients", requestParams).then((response) => response.data);
+  request<any>("orders", requestParams).then((response) => response.data);
 };

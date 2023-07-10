@@ -84,8 +84,6 @@ const BurgerConstructor = () => {
     );
   }, [bun.price, ingredients]);
 
-  console.log(!(ingredients.length && bun._id));
-
   return (
     <div
       className={`${constructorStyles["constructor-wrapper"]} custom-scroll`}

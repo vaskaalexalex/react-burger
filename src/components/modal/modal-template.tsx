@@ -11,6 +11,10 @@ type ModalProps = {
 };
 
 const Modal = ({ children, onClose, title = "" }: ModalProps) => {
+  const portal = document.createElement("div");
+  portal.id = "modal-root";
+  document.body.appendChild(portal);
+
   useEffect(() => {
     const closeOnESC = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -25,7 +29,7 @@ const Modal = ({ children, onClose, title = "" }: ModalProps) => {
   }, [onClose]);
 
   return ReactDOM.createPortal(
-    <ModalOverlay>
+    <ModalOverlay onClose={onClose}>
       <div className={modalStyles.modal}>
         <div
           className={`${modalStyles["modal-header"]} text text_type_main-medium`}
@@ -38,7 +42,7 @@ const Modal = ({ children, onClose, title = "" }: ModalProps) => {
         <div className="modal-body">{children}</div>
       </div>
     </ModalOverlay>,
-    document.body
+    portal
   );
 };
 

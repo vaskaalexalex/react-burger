@@ -63,10 +63,19 @@ const IngredientsTabs: React.FC<TabsTypes> = memo(({ tabsRef }) => {
 
       if (firstTabTop > 30 && firstTabTop <= 300) {
         setTabState("one");
+        current.children[0].classList.add("activeTab");
+        current.children[1].classList.remove("activeTab");
+        current.children[2].classList.remove("activeTab");
       } else if (firstTabTop > -500 && firstTabTop <= 30) {
         setTabState("two");
+        current.children[0].classList.remove("activeTab");
+        current.children[1].classList.add("activeTab");
+        current.children[2].classList.remove("activeTab");
       } else if (firstTabTop <= -500) {
         setTabState("three");
+        current.children[0].classList.remove("activeTab");
+        current.children[1].classList.remove("activeTab");
+        current.children[2].classList.add("activeTab");
       }
     }
   }, [_tabsRef]);
