@@ -1,11 +1,11 @@
 import overlayStyles from "./modal-overlay.module.css";
-import { MouseEventHandler } from "react";
+import React, { MouseEventHandler } from "react";
 
 function ModalOverlay({
   onClose,
   children,
 }: {
-  onClose: MouseEventHandler<HTMLDivElement> | undefined;
+  onClose: MouseEventHandler<HTMLDivElement>;
   children: JSX.Element;
 }) {
   return (

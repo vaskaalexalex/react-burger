@@ -55,39 +55,6 @@ const IngredientsTabs: React.FC<TabsTypes> = memo(({ tabsRef }) => {
     [_tabsRef]
   );
 
-  const catchScroll = useCallback(() => {
-    const { current } = _tabsRef;
-
-    if (current && !isScrollingRef.current) {
-      const firstTabTop = current.children[0].getBoundingClientRect().top;
-
-      if (firstTabTop > 30 && firstTabTop <= 300) {
-        setTabState("one");
-        current.children[0].classList.add("activeTab");
-        current.children[1].classList.remove("activeTab");
-        current.children[2].classList.remove("activeTab");
-      } else if (firstTabTop > -500 && firstTabTop <= 30) {
-        setTabState("two");
-        current.children[0].classList.remove("activeTab");
-        current.children[1].classList.add("activeTab");
-        current.children[2].classList.remove("activeTab");
-      } else if (firstTabTop <= -500) {
-        setTabState("three");
-        current.children[0].classList.remove("activeTab");
-        current.children[1].classList.remove("activeTab");
-        current.children[2].classList.add("activeTab");
-      }
-    }
-  }, [_tabsRef]);
-
-  useEffect(() => {
-    const { current } = _tabsRef;
-    current?.addEventListener("scroll", catchScroll);
-    return () => {
-      current?.removeEventListener("scroll", catchScroll);
-    };
-  }, [_tabsRef, catchScroll]);
-
   const onTabClick = useCallback(
     (value: string) => {
       setTabState(value);

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef } from "react";
+import React, { useCallback, useMemo, useRef, useState } from "react";
 import IngredientCard from "./card/ingredient-card";
 import ingredientsStyles from "./burger-ingredients.module.css";
 import { IIngredient, IngredientType, Tabs } from "../constants";
@@ -13,9 +13,16 @@ interface CounterType extends Record<string, any> {
 const BurgerIngredients = () => {
   const dispatch = useAppDispatch();
   const tabsRef = useRef<HTMLDivElement>(null);
+
   const ingredients = useAppSelector(
     (state: any) => state.burgerIngredients.ingredients
   );
+  const containerRef = useRef<any>();
+
+  const typesMap = Tabs.map((tab) => tab.type);
+  const refs: any = [];
+
+  const [tab, setTab] = useState("one");
 
   const constructorIngredients = useAppSelector(
     (state: any) => state.constructorIngredients
@@ -73,6 +80,29 @@ const BurgerIngredients = () => {
     [dispatch]
   );
 
+  const handleScroll = () => {
+    const containerPosition = containerRef.current.getBoundingClientRect().top;
+
+    const categoriesPositions: any = {};
+
+    Object.keys(typesMap).map(
+      (type) =>
+        (categoriesPositions[type] = Math.abs(
+          containerPosition - refs[type].getBoundingClientRect().top
+        ))
+    );
+
+    // @ts-ignore
+    const minCategoryPosition = Math.min(...Object.values(categoriesPositions));
+
+    const currentTab = Object.keys(categoriesPositions).find(
+      (key) => minCategoryPosition === categoriesPositions[key]
+    );
+
+    // @ts-ignore
+    setTab(currentTab);
+  };
+
   return (
     <div className={ingredientsStyles["ingredients-container"]}>
       <p className={`text text_type_main-large mt-10 mb-5`}>Соберите бургер</p>
@@ -81,7 +111,12 @@ const BurgerIngredients = () => {
       <div className={`${ingredientsStyles["ingredients"]} custom-scroll`}>
         <div className={ingredientsStyles["components"]} ref={tabsRef}>
           {Tabs.map((tab, index) => (
-            <section key={tab._id} className={`${tab._id}`}>
+            <section
+              key={tab._id}
+              className={`${tab._id}`}
+              ref={containerRef}
+              onScroll={handleScroll}
+            >
               <p className={`text text_type_main-medium`}>{tab.name}</p>
               <div className={ingredientsStyles["item-container"]}>
                 {ingredientsCategories[index].map((ingredient: IIngredient) => (
