@@ -29,7 +29,7 @@ const BurgerContent: FC<IBurgerContent> = memo(
       }),
     });
 
-    const [{ handlerId, isOver }, drop] = useDrop<
+    const [{ handlerId }, drop] = useDrop<
       { id: string; index: number },
       void,
       { handlerId: string; isOver: boolean }
