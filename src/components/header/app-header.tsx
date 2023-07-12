@@ -14,7 +14,7 @@ const AppHeader = (): JSX.Element => {
         <ul className={`${headerStyles["menu-left"]} mb-4 mt-4`}>
           <li className={`${headerStyles["menu-item"]} mr-5 mb-5 mt-5`}>
             <a
-              href="#"
+              href="/"
               className="text text_type_main-default text_color_primary ml-2"
             >
               <BurgerIcon type="primary" />
@@ -24,7 +24,7 @@ const AppHeader = (): JSX.Element => {
             </a>
           </li>
           <li className={`${headerStyles["menu-item"]} mr-5 mb-5 mt-5`}>
-            <a href="#">
+            <a href="/">
               <ListIcon type="secondary" />
               <div className="text text_type_main-default text_color_inactive ml-2">
                 Лента заказов
@@ -38,7 +38,7 @@ const AppHeader = (): JSX.Element => {
         <ul className={`${headerStyles["menu-right"]} mb-4 mt-4`}>
           <li className={`${headerStyles["menu-item"]} mr-5 mb-5 mt-5`}>
             <a
-              href="#"
+              href="/"
               className="text text_type_main-default text_color_inactive ml-2 ,"
             >
               <ProfileIcon type="secondary" />
