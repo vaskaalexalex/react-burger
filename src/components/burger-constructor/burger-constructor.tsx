@@ -1,124 +1,155 @@
-import React, { useMemo, useState } from "react";
-import {
-  ConstructorElement,
-  Button,
-  CurrencyIcon,
-  DragIcon,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import React, { useCallback, useMemo, useRef } from "react";
+import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
+import { v4 as uuidv4 } from "uuid";
 import constructorStyles from "./burger-constructor.module.css";
 import { IIngredient, IngredientType } from "../constants";
 import Modal from "../modal/modal-template";
 import ModalTotal from "../order-details/order-details";
+import {
+  addIngredient,
+  addOrReplaceBun,
+  moveIngredient,
+  removeBun,
+  removeIngredient,
+  resetState,
+} from "../../services/reducers/burger-constructor";
+import { useDrop } from "react-dnd";
+import { getOrderNumber } from "../../services/reducers/order-details";
+import { BurgerBunItem } from "./burger-bun/burger-bun";
+import { BurgerContent } from "./burger-content/burger-content";
+import { TotalPrice } from "../total-price/total-price";
+import { useAppDispatch, useAppSelector, useModal } from "../../services/hooks";
 
-const BurgerConstructor = ({ selected }: { selected: IIngredient[] }) => {
-  const [price, setPrice] = useState<number>(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const BurgerConstructor = () => {
+  const { isModalOpen, openModal, closeModal } = useModal();
+  const dispatch = useAppDispatch();
+  const dropRef = useRef<HTMLUListElement>(null);
+  const { ingredients, bun } = useAppSelector(
+    (state: any) => state.constructorIngredients
+  );
 
-  const handleModalOpen = () => {
-    setIsModalOpen(true);
-  };
+  function closePortal() {
+    closeModal();
+    dispatch(resetState());
+  }
 
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
+  const [{ isHover }, dropTarget] = useDrop({
+    accept: "ingredient",
+    drop(ingredient: IIngredient) {
+      const uniqueId = uuidv4();
+      ingredient.type === "bun"
+        ? dispatch(addOrReplaceBun(ingredient))
+        : dispatch(addIngredient({ ingredient, uniqueId }));
+    },
+    collect: (monitor) => ({
+      isHover: monitor.isOver(),
+    }),
+  });
 
-  const bunElementHandler = (
-    chosenIngredients: IIngredient[],
-    property: keyof IIngredient,
-    trueValue: string,
-    falseValue: string
-  ) => {
-    const bun = chosenIngredients.find(
-      (ingredient: IIngredient) => ingredient.type === IngredientType.bun
+  const borderColor = isHover ? "#8585AD" : "transparent";
+
+  const deleteIngredient = useCallback(
+    (ingredient: IIngredient) => () => {
+      dispatch(removeIngredient(ingredient));
+    },
+    [dispatch]
+  );
+
+  const deleteBun = useCallback(() => {
+    dispatch(removeBun());
+  }, [dispatch]);
+
+  const moveCard = useCallback(
+    (dragIndex: number, hoverIndex: number) => {
+      dispatch(moveIngredient({ hoverIndex, dragIndex }));
+    },
+    [dispatch]
+  );
+
+  const createOrder = () => {
+    openModal();
+    dispatch(
+      getOrderNumber({
+        ingredients: ingredients,
+        bun: bun,
+      })
     );
-
-    return bun ? `${bun[property]} ${trueValue}` : falseValue;
   };
 
-  useMemo(() => {
-    const totalPrice = selected.reduce(
+  const price = useMemo(() => {
+    return ingredients.reduce(
       (acc: number, item: IIngredient) =>
         acc + item.price * (item.type === IngredientType.bun ? 2 : 1),
       0
     );
-    setPrice(totalPrice);
-  }, [selected]);
+  }, [bun.price, ingredients]);
 
   return (
-    <div className={`${constructorStyles["constructor-wrapper"]}`}>
-      <div className={constructorStyles.item}>
-        {selected.length > 0 ? (
-          <div className="ml-5">
-            <ConstructorElement
-              type="top"
-              text={bunElementHandler(
-                selected,
-                "name",
-                "(верх)",
-                "Выберите булку"
-              )}
-              price={+bunElementHandler(selected, "price", "", "0")}
-              thumbnail={bunElementHandler(selected, "image", "", "")}
-            />
-          </div>
-        ) : (
-          <p className="text text_type_main-large">Выберите булку</p>
-        )}
-      </div>
+    <div
+      className={`${constructorStyles["constructor-wrapper"]} custom-scroll`}
+      ref={dropTarget}
+    >
       <div
-        className={`${constructorStyles["burger-constructor"]} custom-scroll`}
+        key="burger-constructor"
+        ref={dropTarget}
+        style={{ borderColor: borderColor }}
+        className={constructorStyles["burger-constructor"]}
       >
-        <ul className={`${constructorStyles.item}`}>
-          {selected.map(
-            (ingredient: IIngredient) =>
-              ingredient.type !== IngredientType.bun && (
-                <div
-                  key={ingredient._id}
-                  className={`${constructorStyles["item-inner"]} mt-2 mb-2`}
-                >
-                  <DragIcon type="primary" />
-                  <ConstructorElement
-                    text={ingredient.name}
-                    price={ingredient.price}
-                    thumbnail={ingredient.image}
+        {ingredients.length !== 0 || bun.price !== 0 ? (
+          <>
+            <BurgerBunItem
+              place={"top"}
+              ingredient={bun}
+              handleClose={deleteBun}
+            />
+            <ul className={`${constructorStyles.item}`} ref={dropRef}>
+              {ingredients.map((item: IIngredient, index: number) => {
+                const lastIndex = index === ingredients.length - 1;
+                return (
+                  <BurgerContent
+                    bottomPadding={!lastIndex}
+                    key={item.uniqueId}
+                    index={index}
+                    moveCard={moveCard}
+                    ingredient={item}
+                    draggable={true}
+                    handleClose={deleteIngredient(item)}
                   />
-                </div>
-              )
-          )}
-        </ul>
-      </div>
-      <div className="ml-5">
-        {selected.length > 0 && (
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text={bunElementHandler(
-              selected,
-              "name",
-              "(низ)",
-              "Выберите булку"
-            )}
-            price={+bunElementHandler(selected, "price", "", "0")}
-            thumbnail={bunElementHandler(selected, "image", "", "")}
-          />
+                );
+              })}
+            </ul>
+            <BurgerBunItem
+              place={"bottom"}
+              ingredient={bun}
+              handleClose={deleteBun}
+            />
+          </>
+        ) : (
+          <div className={constructorStyles["helper"]}>
+            <div
+              className={`${constructorStyles["helper_shadow"]} text text_type_main-large mb-30 mt-30`}
+            >
+              Перетащите сюда ингредиент
+            </div>
+          </div>
         )}
       </div>
       <div className={constructorStyles.price}>
-        <div className={`${constructorStyles.total} m-5`}>
-          <p className="text text_type_digits-medium m-5">{price}</p>
-          <CurrencyIcon type="primary" />
+        <div className={`${constructorStyles.total}`}>
+          <TotalPrice price={price} size={"medium"} />
         </div>
         <Button
           htmlType="button"
           type="primary"
           size="medium"
-          onClick={handleModalOpen}
+          onClick={createOrder}
+          disabled={!(ingredients.length && bun._id)}
         >
           Заказать
         </Button>
       </div>
       {isModalOpen && (
-        <Modal onClose={handleModalClose} title="">
+        <Modal onClose={closePortal} title="">
           <ModalTotal />
         </Modal>
       )}
