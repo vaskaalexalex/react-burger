@@ -124,7 +124,7 @@ const BurgerIngredients = () => {
   return (
     <div className={ingredientsStyles["ingredients-container"]}>
       <p className={`text text_type_main-large mt-10 mb-5`}>Соберите бургер</p>
-      <IngredientsTabs active={tab} tabsRef={tabsRef} />
+      <IngredientsTabs active={tab} tabsRef={tabsRef} onTabClick={setTab} />
 
       <div
         ref={containerRef}
