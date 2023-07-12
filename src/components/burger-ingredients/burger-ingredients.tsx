@@ -10,6 +10,12 @@ interface CounterType extends Record<string, any> {
   id?: number;
 }
 
+const typesMap = {
+  bun: "Булки",
+  main: "Начинки",
+  sauce: "Соусы",
+};
+
 const BurgerIngredients = () => {
   const dispatch = useAppDispatch();
   const tabsRef = useRef<HTMLDivElement>(null);
@@ -19,10 +25,16 @@ const BurgerIngredients = () => {
   );
   const containerRef = useRef<any>();
 
-  const typesMap = Tabs.map((tab) => tab.type);
-  const refs: any = [];
-
   const [tab, setTab] = useState("one");
+  const mainRef = useRef<HTMLDivElement>(null);
+  const sauceRef = useRef<HTMLDivElement>(null);
+  const bunsRef = useRef<HTMLDivElement>(null);
+
+  const refs = {
+    bun: bunsRef,
+    sauce: sauceRef,
+    main: mainRef,
+  };
 
   const constructorIngredients = useAppSelector(
     (state: any) => state.constructorIngredients
@@ -83,22 +95,28 @@ const BurgerIngredients = () => {
   const handleScroll = () => {
     const containerPosition = containerRef.current.getBoundingClientRect().top;
 
-    const categoriesPositions: any = {};
+    type CategoriesPositions = Record<IngredientType, number>;
 
-    Object.keys(typesMap).map(
-      (type) =>
-        (categoriesPositions[type] = Math.abs(
-          containerPosition - refs[type].getBoundingClientRect().top
-        ))
-    );
+    const categoriesPositions: CategoriesPositions = {} as CategoriesPositions;
 
-    // @ts-ignore
+    Object.keys(typesMap)
+      .map((key) => key as IngredientType)
+      .forEach((type: IngredientType) => {
+        categoriesPositions[type] = Math.abs(
+          // @ts-ignore
+          containerPosition - refs[type].current?.getBoundingClientRect()?.top
+        );
+      });
+
     const minCategoryPosition = Math.min(...Object.values(categoriesPositions));
 
+    console.log(categoriesPositions);
+
     const currentTab = Object.keys(categoriesPositions).find(
+      // @ts-ignore
       (key) => minCategoryPosition === categoriesPositions[key]
     );
-
+    console.log(currentTab);
     // @ts-ignore
     setTab(currentTab);
   };
@@ -106,16 +124,20 @@ const BurgerIngredients = () => {
   return (
     <div className={ingredientsStyles["ingredients-container"]}>
       <p className={`text text_type_main-large mt-10 mb-5`}>Соберите бургер</p>
-      <IngredientsTabs tabsRef={tabsRef} />
+      <IngredientsTabs active={tab} tabsRef={tabsRef} />
 
-      <div className={`${ingredientsStyles["ingredients"]} custom-scroll`}>
+      <div
+        ref={containerRef}
+        onScroll={handleScroll}
+        className={`${ingredientsStyles["ingredients"]} custom-scroll`}
+      >
         <div className={ingredientsStyles["components"]} ref={tabsRef}>
           {Tabs.map((tab, index) => (
             <section
               key={tab._id}
               className={`${tab._id}`}
-              ref={containerRef}
-              onScroll={handleScroll}
+              // @ts-ignore
+              ref={refs[tab?.type]}
             >
               <p className={`text text_type_main-medium`}>{tab.name}</p>
               <div className={ingredientsStyles["item-container"]}>
