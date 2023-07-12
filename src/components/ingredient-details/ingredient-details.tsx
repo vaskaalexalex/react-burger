@@ -1,21 +1,27 @@
-import { IIngredient } from "../constants";
 import React, { Fragment } from "react";
 import cardsStyles from "./ingredients-modal.module.css";
+import { useAppSelector } from "../../services/hooks";
 
-const IngredientDetails = ({ ingredient }: { ingredient: IIngredient }) => {
-  const { name, image_large, calories, carbohydrates, fat, proteins } =
-    ingredient;
+const IngredientDetails = () => {
+  const {
+    modalImage,
+    modalName,
+    modalCalories,
+    modalProteins,
+    modalFat,
+    modalCarbohydrates,
+  } = useAppSelector((state) => state.ingredientDetails);
 
   return (
     <Fragment>
       <div className={`${cardsStyles["card"]} mt-6 mb-10`}>
         <div className={cardsStyles["card-image-container"]}>
-          <img alt="not" src={image_large} />
+          <img alt="not" src={modalImage} />
         </div>
         <p
           className={`${cardsStyles["card-name"]} text text_type_main-medium mt-4 mb-8`}
         >
-          {name}
+          {modalName}
         </p>
         <div
           className={`${cardsStyles.values} text text_type_main-default text_color_inactive`}
@@ -23,25 +29,25 @@ const IngredientDetails = ({ ingredient }: { ingredient: IIngredient }) => {
           <div>
             Калории,ккал
             <div className="text text_type_digits-default text_color_inactive">
-              {calories}
+              {modalCalories}
             </div>
           </div>
           <div>
             Белки,г
             <div className="text text_type_digits-default text_color_inactive">
-              {proteins}
+              {modalProteins}
             </div>
           </div>
           <div>
             Жиры,г
             <div className="text text_type_digits-default text_color_inactive">
-              {fat}
+              {modalFat}
             </div>
           </div>
           <div>
             Углеводы,г
             <div className="text text_type_digits-default text_color_inactive">
-              {carbohydrates}
+              {modalCarbohydrates}
             </div>
           </div>
         </div>

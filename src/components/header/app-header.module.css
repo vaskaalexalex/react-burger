@@ -3,6 +3,7 @@
   width: 100%;
   height: 100px;
   position: fixed;
+  margin-bottom: 100px;
   z-index: 1;
 }
 

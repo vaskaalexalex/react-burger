@@ -1,0 +1,4 @@
+.tabs {
+    display: flex;
+    -webkit-transform: translateX(0) translateZ(0);
+}

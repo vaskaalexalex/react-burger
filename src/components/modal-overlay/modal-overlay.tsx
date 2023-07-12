@@ -1,17 +1,18 @@
 import overlayStyles from "./modal-overlay.module.css";
+import React, { MouseEventHandler } from "react";
 
 function ModalOverlay({
   onClose,
   children,
 }: {
-  onClose: () => void;
+  onClose: MouseEventHandler<HTMLDivElement>;
   children: JSX.Element;
 }) {
   return (
     <div
+      onClick={onClose}
       key="modal-overlay"
       className={overlayStyles["modal-overlay"]}
-      onClick={onClose}
     >
       {children}
     </div>

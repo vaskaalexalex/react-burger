@@ -1,29 +1,31 @@
-import React, { useEffect, useState } from "react";
-import "./app.css";
+import React, { useEffect } from "react";
+import appStyles from "./app.module.css";
 import AppHeader from "../header/app-header";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import { IIngredient } from "../constants";
-import { fetchIngredients } from "../../utils/api";
+import { HTML5Backend } from "react-dnd-html5-backend";
+import { DndProvider } from "react-dnd";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { fetchIngredients } from "../../services/reducers/burger-ingredients";
 
 function App() {
-  const [selected, setSelected] = useState<IIngredient[]>([]);
-  const [ingredients, setIngredients] = useState<IIngredient[]>([]);
+  const dispatch = useAppDispatch();
+  const { status } = useAppSelector((state) => state.burgerIngredients);
 
   useEffect(() => {
-    fetchIngredients().then(({ data }) => setIngredients(data));
-  }, []);
+    if (status === "idle") {
+      dispatch(fetchIngredients());
+    }
+  }, [dispatch, status]);
 
   return (
-    <div className="App">
+    <div className={appStyles["app"]}>
       <AppHeader />
-      <div className="body">
-        <BurgerIngredients
-          ingredients={ingredients}
-          selected={selected}
-          setSelected={setSelected}
-        />
-        <BurgerConstructor selected={selected} />
+      <div className={appStyles["body"]}>
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients />
+          <BurgerConstructor />
+        </DndProvider>
       </div>
     </div>
   );
