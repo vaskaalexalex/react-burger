@@ -2,7 +2,7 @@ import { memo, useMemo, FC } from "react";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import itemStyles from "../burger-item.module.css";
-import { IIngredient } from "../../constants";
+import { IIngredient } from "../../../types";
 
 interface BurgerConstructorItemTypes {
   ingredient: IIngredient;

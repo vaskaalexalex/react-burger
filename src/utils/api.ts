@@ -1,4 +1,11 @@
-import { IIngredient } from "../components/constants";
+import {
+  ILoginUser,
+  IRequestOptions,
+  IIngredient,
+  IMessageData,
+  ITokenData,
+} from "../types";
+import { setCookie } from "./utils";
 
 export const BASE_URL = "https://norma.nomoreparties.space/api/";
 
@@ -45,4 +52,90 @@ export const addOrderRequest = (data: any): any => {
     },
   };
   request<any>("orders", requestParams).then((response) => response.data);
+};
+
+export const createUser = async (
+  requestOptions: IRequestOptions
+): Promise<ILoginUser> => {
+  const res = await fetch(`${BASE_URL}auth/register`, requestOptions);
+  const data = await checkResponse(res);
+  const success: ILoginUser = checkSuccess(data);
+  if (success) {
+    setCookie("accessToken", success.accessToken);
+    setCookie("refreshToken", success.refreshToken);
+  }
+  return success;
+};
+
+export const loginUser = async (
+  requestOptions: IRequestOptions
+): Promise<ILoginUser> => {
+  const res = await fetch(`${BASE_URL}auth/login`, requestOptions);
+  const data = await checkResponse(res);
+  const success: ILoginUser = checkSuccess(data);
+  if (success) {
+    setCookie("accessToken", success.accessToken);
+    setCookie("refreshToken", success.refreshToken);
+  }
+  return success;
+};
+
+export const logoutUser = async (requestOptions: IRequestOptions) => {
+  const res = await fetch(`${BASE_URL}auth/logout`, requestOptions);
+  const data = await checkResponse(res);
+  const success: IMessageData = checkSuccess(data);
+  if (success) {
+    setCookie("accessToken", "", {
+      expires: 0,
+    });
+    setCookie("refreshToken", "", {
+      expires: 0,
+    });
+  }
+  return success;
+};
+
+export const getUser = async (
+  requestOptions: IRequestOptions
+): Promise<ILoginUser> => {
+  const res = await fetch(`${BASE_URL}auth/user`, requestOptions);
+  const data = await checkResponse(res);
+  return checkSuccess(data);
+};
+
+export const updateUser = async (
+  requestOptions: IRequestOptions
+): Promise<ILoginUser> => {
+  const res = await fetch(`${BASE_URL}auth/user`, requestOptions);
+  const data = await checkResponse(res);
+  return checkSuccess(data);
+};
+
+export const getNewToken = async (
+  requestOptions: IRequestOptions
+): Promise<ITokenData> => {
+  const res = await fetch(`${BASE_URL}auth/token`, requestOptions);
+  const data = await checkResponse(res);
+  const success = checkSuccess(data);
+  if (success) {
+    setCookie("accessToken", success.accessToken);
+    setCookie("refreshToken", success.refreshToken);
+  }
+  return success;
+};
+
+export const forgotPassword = async (
+  requestOptions: IRequestOptions
+): Promise<IMessageData> => {
+  const res = await fetch(`${BASE_URL}password-reset`, requestOptions);
+  const data = await checkResponse(res);
+  return checkSuccess(data);
+};
+
+export const resetPassword = async (
+  requestOptions: IRequestOptions
+): Promise<IMessageData> => {
+  const res = await fetch(`${BASE_URL}password-reset/reset`, requestOptions);
+  const data = await checkResponse(res);
+  return checkSuccess(data);
 };

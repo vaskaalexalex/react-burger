@@ -1,10 +1,17 @@
-import React, { useCallback, useMemo, useRef, useState } from "react";
-import IngredientCard from "./card/ingredient-card";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { IngredientCard } from "./card/ingredient-card";
 import ingredientsStyles from "./burger-ingredients.module.css";
-import { IIngredient, IngredientType, Tabs } from "../constants";
-import { IngredientsTabs } from "./tabs/ingredient-tabs";
+import { IngredientType, Tabs } from "../constants";
 import { addDataToModal } from "../../services/reducers/ingredients-details";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { IIngredient } from "../../types";
+import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 
 interface CounterType extends Record<string, any> {
   id?: number;
@@ -23,12 +30,49 @@ const BurgerIngredients = () => {
   const ingredients = useAppSelector(
     (state: any) => state.burgerIngredients.ingredients
   );
-  const containerRef = useRef<any>();
 
   const [tab, setTab] = useState("one");
   const mainRef = useRef<HTMLDivElement>(null);
   const sauceRef = useRef<HTMLDivElement>(null);
   const bunsRef = useRef<HTMLDivElement>(null);
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+
+  const handleClick = useCallback((value: string) => {
+    value === "one"
+      ? bunsRef.current?.scrollIntoView({ behavior: "smooth" })
+      : value === "two"
+      ? sauceRef.current?.scrollIntoView({ behavior: "smooth" })
+      : mainRef.current?.scrollIntoView({ behavior: "smooth" });
+    setTab(value);
+  }, []);
+
+  useEffect((): any => {
+    const targets = [bunsRef.current, sauceRef.current, mainRef.current];
+    const options = {
+      root: scrollRef.current,
+      rootMargin: "0px 0px -90% 0px",
+    };
+
+    const callback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          if (entry.target === bunsRef.current) {
+            setTab("one");
+          }
+          if (entry.target === sauceRef.current) {
+            setTab("two");
+          }
+          if (entry.target === mainRef.current) {
+            setTab("three");
+          }
+        }
+      });
+    };
+    const observer = new IntersectionObserver(callback, options);
+    targets.forEach((target) => {
+      if (target) observer.observe(target);
+    });
+  }, []);
 
   const refs = {
     bun: bunsRef,
@@ -93,7 +137,7 @@ const BurgerIngredients = () => {
   );
 
   const handleScroll = () => {
-    const containerPosition = containerRef.current.getBoundingClientRect().top;
+    const containerPosition = scrollRef?.current?.getBoundingClientRect().top;
 
     type CategoriesPositions = Record<IngredientType, number>;
 
@@ -124,10 +168,31 @@ const BurgerIngredients = () => {
   return (
     <div className={ingredientsStyles["ingredients-container"]}>
       <p className={`text text_type_main-large mt-10 mb-5`}>Соберите бургер</p>
-      <IngredientsTabs active={tab} tabsRef={tabsRef} onTabClick={setTab} />
-
+      <div className={ingredientsStyles.container}>
+        <Tab
+          value="one"
+          active={tab === "one"}
+          onClick={() => handleClick("one")}
+        >
+          Булки
+        </Tab>
+        <Tab
+          value="two"
+          active={tab === "two"}
+          onClick={() => handleClick("two")}
+        >
+          Соусы
+        </Tab>
+        <Tab
+          value="three"
+          active={tab === "three"}
+          onClick={() => handleClick("three")}
+        >
+          Начинки
+        </Tab>
+      </div>
       <div
-        ref={containerRef}
+        ref={scrollRef}
         onScroll={handleScroll}
         className={`${ingredientsStyles["ingredients"]} custom-scroll`}
       >

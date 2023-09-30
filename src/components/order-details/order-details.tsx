@@ -1,7 +1,5 @@
-import React from "react";
-import { ReactComponent as AcceptBg } from "../../images/accpet-bg.svg";
+import acceptBg from "../../assets/images/accpet.svg";
 import totalStyles from "./orded-details.module.css";
-
 const OrderDetails = () => {
   const orderNumber = Math.floor(Math.random() * 1000000);
 
@@ -14,7 +12,7 @@ const OrderDetails = () => {
         идентификатор заказа
       </div>
       <div className="mt-15 mb-15">
-        <AcceptBg />
+        <img src={acceptBg} alt="" />
       </div>
       <div
         className={`${totalStyles.status} text text_type_main-default mb-2"`}

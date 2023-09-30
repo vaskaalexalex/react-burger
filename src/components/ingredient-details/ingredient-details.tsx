@@ -56,4 +56,4 @@ const IngredientDetails = () => {
   );
 };
 
-export default IngredientDetails;
+export { IngredientDetails };

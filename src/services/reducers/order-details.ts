@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 
-import { addOrderRequest } from "../../utils/api";
-import { IIngredient, IOrder } from "../../components/constants";
+import { addOrderRequest } from "../../utils";
+import { IIngredient, IOrder } from "../../types";
 
 interface ISliceState {
   orderNumber: number;

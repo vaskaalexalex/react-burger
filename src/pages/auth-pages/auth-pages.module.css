@@ -1,0 +1,72 @@
+.container {
+    height: calc(100% - 100px);
+    width: 100%;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 180px;
+    margin: auto;
+}
+
+.profile-container {
+    display: flex;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin: 0 auto;
+    max-width: 1048.4px;
+    height: calc(100vh - 100px);
+    overflow:visible
+}
+
+.profile-items-container {
+    display: flex;
+    width: 320px;
+    flex-flow: column;
+    align-items: flex-start;
+}
+
+.form-container {
+    display: flex;
+    width: 100%;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-buttons {
+    display: flex;
+    flex-flow: row;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.button {
+    margin-bottom: 60px;
+}
+
+.form {
+}
+
+.input-wrapper {
+}
+
+.text {
+    display: flex;
+}
+
+.text-link {
+    color: #4c4cff;
+}
+
+.text-error {
+    color: #f20d33;
+}
+
+.text-success {
+    color: #00cccc;
+}
+
+.text-link:hover {
+    text-decoration: underline;
+}
+

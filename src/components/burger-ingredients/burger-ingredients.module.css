@@ -1,13 +1,14 @@
 .ingredients-container {
-    overflow: hidden;
-    margin-top: 100px;
+    flex: 0 0 48%;
+    height: calc(100% - 55px);
 }
 
 .ingredients {
-    height: calc(100vh - 244px);
-    overflow-y: scroll;
-    scroll-behavior: smooth;
-    overflow-x: hidden;
+    width: 600px;
+    flex-direction: column;
+    display: flex;
+    overflow-y: auto;
+    height: calc(912px - 132px);
 }
 
 .tabs {
@@ -27,6 +28,11 @@
     width: 100%;
     gap: 24px;
 }
+
+.container {
+    display: flex;
+}
+
 
 p {
     word-break: break-word;
