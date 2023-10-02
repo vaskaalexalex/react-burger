@@ -121,14 +121,6 @@ function App() {
           {background && (
             <Routes>
               <Route
-                path="/"
-                element={
-                  <Modal title="Детали ингредиента" onClose={onDismiss}>
-                    <IngredientDetails />
-                  </Modal>
-                }
-              />
-              <Route
                 path="/ingredients/:id"
                 element={
                   <Modal title="Детали ингредиента" onClose={onDismiss}>

@@ -11,7 +11,7 @@ function IngredientInfo() {
   let content;
   const dispatch = useAppDispatch();
 
-  const params = useParams();
+  const { id } = useParams();
 
   const ingredients = useAppSelector(
     (state) => state.burgerIngredients.ingredients
@@ -20,20 +20,11 @@ function IngredientInfo() {
   const [ingredientExists, setIngredientExists] = useState(false);
 
   useEffect(() => {
-    const ingredient = ingredients.find((obj) => obj._id === params.id);
+    const ingredient = ingredients.find((obj) => obj._id === id);
     if (ingredient) {
       setIngredientExists(true);
-      const modalData = {
-        modalImage: ingredient.image_large,
-        modalName: ingredient.name,
-        modalCalories: ingredient.calories,
-        modalProteins: ingredient.price,
-        modalFat: ingredient.fat,
-        modalCarbohydrates: ingredient.carbohydrates,
-      };
-      dispatch(addDataToModal(modalData));
     }
-  }, [dispatch, params.id, ingredients, params]);
+  }, [dispatch, id, ingredients]);
 
   if (ingredientExists) {
     content = <IngredientDetails />;

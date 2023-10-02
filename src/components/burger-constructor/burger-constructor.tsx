@@ -20,6 +20,8 @@ import { BurgerContent } from "./burger-content/burger-content";
 import { TotalPrice } from "../total-price/total-price";
 import { useAppDispatch, useAppSelector, useModal } from "../../services/hooks";
 import { IIngredient } from "../../types";
+import { useNavigate } from "react-router-dom";
+import { userAuthorized } from "../../utils";
 
 const BurgerConstructor = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -28,6 +30,9 @@ const BurgerConstructor = () => {
   const { ingredients, bun } = useAppSelector(
     (state: any) => state.constructorIngredients
   );
+  const navigate = useNavigate();
+
+  const { user } = useAppSelector((state) => state.authUser);
 
   function closePortal() {
     closeModal();
@@ -68,13 +73,22 @@ const BurgerConstructor = () => {
   );
 
   const createOrder = () => {
-    openModal();
-    dispatch(
-      getOrderNumber({
-        ingredients: ingredients,
-        bun: bun,
-      })
-    );
+    if (userAuthorized(user)) {
+      openModal();
+
+      dispatch(
+        getOrderNumber({
+          ingredients: ingredients,
+          bun: bun,
+        })
+      );
+      localStorage.removeItem("constructorIngredients");
+    } else {
+      navigate("/login", {
+        state: { from: "/" },
+        replace: true,
+      });
+    }
   };
 
   const price = useMemo(() => {

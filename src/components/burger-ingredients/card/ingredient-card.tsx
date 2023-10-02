@@ -4,8 +4,6 @@ import cardsStyles from "./burger-ingredients-card.module.css";
 import { IIngredient } from "../../../types";
 import { useDrag } from "react-dnd";
 import { IngredientCounter } from "./ingredient-counter/ingredient-counter";
-import { Modal } from "../../modal/modal-template";
-import { IngredientDetails } from "../../ingredient-details/ingredient-details";
 import { useModal } from "../../../services/hooks";
 
 interface IngredientCardProps {
@@ -20,7 +18,7 @@ export const IngredientCard = ({
   onClick,
 }: IngredientCardProps) => {
   const { name, image, price } = ingredient;
-  const { isModalOpen, openModal, closeModal } = useModal();
+  const { openModal } = useModal();
 
   const [, dragRef] = useDrag({
     type: "ingredient",
@@ -46,11 +44,6 @@ export const IngredientCard = ({
         {name}
       </p>
       <IngredientCounter count={counter} />
-      {isModalOpen && (
-        <Modal onClose={closeModal} title="Добавить ингредиент">
-          <IngredientDetails />
-        </Modal>
-      )}
     </div>
   );
 };

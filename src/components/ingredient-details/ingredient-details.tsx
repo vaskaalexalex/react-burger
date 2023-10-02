@@ -1,8 +1,33 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import cardsStyles from "./ingredients-modal.module.css";
-import { useAppSelector } from "../../services/hooks";
+import { useAppDispatch, useAppSelector } from "../../services/hooks";
+import { useParams } from "react-router-dom";
+import { addDataToModal } from "../../services/reducers/ingredients-details";
 
 const IngredientDetails = () => {
+  const dispatch = useAppDispatch();
+
+  const { id } = useParams();
+
+  const ingredients = useAppSelector(
+    (state) => state.burgerIngredients.ingredients
+  );
+
+  useEffect(() => {
+    const ingredient = ingredients.find((obj) => obj._id === id);
+    if (ingredient) {
+      const modalData = {
+        modalImage: ingredient.image_large,
+        modalName: ingredient.name,
+        modalCalories: ingredient.calories,
+        modalProteins: ingredient.price,
+        modalFat: ingredient.fat,
+        modalCarbohydrates: ingredient.carbohydrates,
+      };
+      dispatch(addDataToModal(modalData));
+    }
+  }, [dispatch, id, ingredients]);
+
   const {
     modalImage,
     modalName,

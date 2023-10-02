@@ -1,4 +1,4 @@
-import { ReactElement, useState } from "react";
+import { ReactElement, SyntheticEvent, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useAppSelector, useAppDispatch } from "../../services/hooks";
@@ -27,7 +27,7 @@ function Login(): ReactElement {
     isValidCheck,
   } = useValidateForm();
 
-  const submitForm = (e: React.SyntheticEvent) => {
+  const submitForm = (e: SyntheticEvent) => {
     e.preventDefault();
     if (isValidCheck() && values.email && values.password)
       dispatch(

@@ -12,6 +12,7 @@ import { addDataToModal } from "../../services/reducers/ingredients-details";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { IIngredient } from "../../types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface CounterType extends Record<string, any> {
   id?: number;
@@ -26,6 +27,8 @@ const typesMap = {
 const BurgerIngredients = () => {
   const dispatch = useAppDispatch();
   const tabsRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const ingredients = useAppSelector(
     (state: any) => state.burgerIngredients.ingredients
@@ -110,6 +113,25 @@ const BurgerIngredients = () => {
 
   const ingredientsCategories = [buns, sauces, mains];
 
+  useEffect(() => {
+    if (location.state && location.state.id) {
+      const ingredient = ingredients.find(
+        (_ingredient: IIngredient) => _ingredient._id === location.state.id
+      );
+      if (ingredient) {
+        const modalData = {
+          modalImage: ingredient.image_large,
+          modalName: ingredient.name,
+          modalCalories: ingredient.calories,
+          modalProteins: ingredient.price,
+          modalFat: ingredient.fat,
+          modalCarbohydrates: ingredient.carbohydrates,
+        };
+        dispatch(addDataToModal(modalData));
+      }
+    }
+  }, [dispatch, ingredients, location.state]);
+
   const ingredientsCounter = useMemo(() => {
     const { bun, ingredients } = constructorIngredients;
     const counters: CounterType = {};
@@ -123,6 +145,9 @@ const BurgerIngredients = () => {
 
   const modalData = useCallback(
     (ingredient: IIngredient) => () => {
+      navigate(`/ingredients/${ingredient._id}`, {
+        state: { background: location, id: ingredient._id },
+      });
       const modalData = {
         modalImage: ingredient.image_large,
         modalName: ingredient.name,
@@ -133,7 +158,7 @@ const BurgerIngredients = () => {
       };
       dispatch(addDataToModal(modalData));
     },
-    [dispatch]
+    [dispatch, location, navigate]
   );
 
   const handleScroll = () => {
