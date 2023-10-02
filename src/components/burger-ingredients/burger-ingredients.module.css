@@ -1,6 +1,5 @@
 .ingredients-container {
     flex: 0 0 48%;
-    height: calc(100% - 55px);
 }
 
 .ingredients {
@@ -32,7 +31,6 @@
 .container {
     display: flex;
 }
-
 
 p {
     word-break: break-word;

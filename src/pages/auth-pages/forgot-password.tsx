@@ -52,7 +52,7 @@ export function ForgotPassword() {
               name="email"
               type="email"
               placeholder={"E-mail"}
-              disabled={loading ? true : false}
+              disabled={loading}
               error={showErrors.email}
               errorText={errors.email}
               value={values.email ?? ""}
@@ -63,7 +63,7 @@ export function ForgotPassword() {
 
           <div className={`${styles["button"]} ${error ? "mb-5" : ""}`}>
             <Button
-              disabled={loading ? true : false}
+              disabled={loading}
               type="primary"
               size="medium"
               htmlType="submit"

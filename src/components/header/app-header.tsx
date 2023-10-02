@@ -41,7 +41,7 @@ export function AppHeader() {
             </NavLink>
           </div>
           <ul className={`${styles["menu-right"]} mb-4 mt-4`}>
-            <li className={`${styles["menu__item"]} ml-5 mb-5 mt-5`}>
+            <li className={`${styles["menu__item"]} mr-5 mb-5 mt-5`}>
               {authorized ? (
                 <NavLinkWithIcon
                   url="/profile"

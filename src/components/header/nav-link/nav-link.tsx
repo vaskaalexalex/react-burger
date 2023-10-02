@@ -30,7 +30,7 @@ export const iconTypeHelper = (
   return inActiveStyle;
 };
 
-type TProps = {
+type NavLinkProps = {
   url: string;
   pathname: string;
   text: string;
@@ -46,7 +46,7 @@ export function NavLinkWithIcon({
   iconType,
   end,
   onClick,
-}: TProps) {
+}: NavLinkProps) {
   let Icon = <></>;
 
   switch (iconType) {

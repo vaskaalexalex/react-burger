@@ -39,22 +39,12 @@ function App() {
   const refreshToken = tokens.refreshToken;
 
   useEffect(() => {
-    if (tokenExists(accessToken)) {
-      if (!isTokenExpired(accessToken)) {
-        dispatch(
-          getUserData({
-            accessToken: accessToken,
-          })
-        );
-      } else {
-        dispatch(getNewAccessToken(refreshToken));
-      }
-    } else {
-      if (tokenExists(refreshToken)) {
-        dispatch(getNewAccessToken(refreshToken));
-      }
+    if (tokenExists(accessToken) && !isTokenExpired(accessToken)) {
+      dispatch(getUserData({ accessToken }));
+    } else if (tokenExists(refreshToken)) {
+      dispatch(getNewAccessToken(refreshToken));
     }
-  }, [accessToken, dispatch, refreshToken]);
+  }, [accessToken, refreshToken, dispatch]);
 
   useEffect(() => {
     if (status === "idle") {
@@ -130,7 +120,6 @@ function App() {
         <>
           {background && (
             <Routes>
-              {/* This route fixes end animation of modal window */}
               <Route
                 path="/"
                 element={

@@ -5,7 +5,7 @@
     align-content: center;
     margin: auto;
     scrollbar-width: none; /* for Firefox */
-    overflow-x: scroll;
+    height: 900px;
 }
 
 .row::-webkit-scrollbar {
