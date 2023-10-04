@@ -14,8 +14,6 @@ import {
 } from "../../pages";
 import { Modal } from "../modal/modal-template";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
-import { ProtectedRouteFromGuest } from "../protected-routes/protected-from-guest";
-import { ProtectedRouteFromUser } from "../protected-routes/protected-from-user";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { fetchIngredients } from "../../services/reducers/burger-ingredients";
 import { tokenExists, isTokenExpired } from "../../utils";
@@ -25,6 +23,7 @@ import styles from "./app.module.css";
 import { Loading } from "../loading/loading";
 import { Error } from "../error/error";
 import { Logout } from "../../pages/auth-pages/logout";
+import { ProtectedRoute } from "../protected-routes/protected-route";
 
 function App() {
   let content;
@@ -70,36 +69,36 @@ function App() {
           <Route
             path="/login"
             element={
-              <ProtectedRouteFromUser>
+              <ProtectedRoute>
                 <Login />
-              </ProtectedRouteFromUser>
+              </ProtectedRoute>
             }
             key={location.pathname}
           />
           <Route
             path="/register"
             element={
-              <ProtectedRouteFromUser>
+              <ProtectedRoute>
                 <Register />
-              </ProtectedRouteFromUser>
+              </ProtectedRoute>
             }
             key={location.pathname}
           />
           <Route
             path="/forgot-password"
             element={
-              <ProtectedRouteFromUser>
+              <ProtectedRoute>
                 <ForgotPassword />
-              </ProtectedRouteFromUser>
+              </ProtectedRoute>
             }
             key={location.pathname}
           />
           <Route
             path="/reset-password"
             element={
-              <ProtectedRouteFromUser>
+              <ProtectedRoute>
                 <ResetPassword />
-              </ProtectedRouteFromUser>
+              </ProtectedRoute>
             }
             key={location.pathname}
           />
@@ -107,9 +106,9 @@ function App() {
           <Route
             path="/profile"
             element={
-              <ProtectedRouteFromGuest>
+              <ProtectedRoute anonymous={true}>
                 <Profile />
-              </ProtectedRouteFromGuest>
+              </ProtectedRoute>
             }
             key={location.pathname}
           />
@@ -135,11 +134,7 @@ function App() {
     );
   }
 
-  return (
-    <>
-      <div className={styles.app}>{content}</div>
-    </>
-  );
+  return <div className={styles.app}>{content}</div>;
 }
 
 export default App;

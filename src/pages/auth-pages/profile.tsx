@@ -32,6 +32,7 @@ function Profile() {
 
   const [nameInputDisabled, setNameInputDisabled] = useState(true);
   const [emailInputDisabled, setEmailInputDisabled] = useState(true);
+  const [passwordInputDisabled, setPasswordInputDisabled] = useState(true);
   const [inputFieldsChanged, setInputFieldsChanged] = useState(false);
   const {
     values,
@@ -53,32 +54,40 @@ function Profile() {
 
     setNameInputDisabled(true);
     setEmailInputDisabled(true);
+    setPasswordInputDisabled(true);
     setInputFieldsChanged(false);
   }
 
   useEffect(() => {
-    if (values.name === user.name && values.email === user.email) {
+    if (
+      values.name === user.name &&
+      values.email === user.email &&
+      values.password === user.password
+    ) {
       setInputFieldsChanged(false);
     }
-  }, [user.email, user.name, values.email, values.name]);
+  }, [user, values]);
 
   useEffect(() => {
     if (
       (!nameInputDisabled || !emailInputDisabled) &&
-      (values.name !== user.name || values.email !== user.email)
+      (values.name !== user.name ||
+        values.email !== user.email ||
+        values.password)
     ) {
       setInputFieldsChanged(true);
     }
   }, [emailInputDisabled, nameInputDisabled, user.email, user.name, values]);
 
   const changeUserData = async () => {
-    if (!values.name || !values.email) return;
+    if (!values.name || !values.email || !values.password) return;
 
     await dispatch(
       updateUserData({
         accessToken: tokens.accessToken,
         name: values.name,
         email: values.email,
+        password: values.password,
       })
     );
     resetFields();
@@ -158,6 +167,27 @@ function Profile() {
             onIconClick={() => {
               if (inputFieldsChanged) resetValue("email", user.email);
               setEmailInputDisabled(!emailInputDisabled);
+            }}
+          />
+        </div>
+        <div className={`${styles["input-wrapper"]} mb-6`}>
+          <Input
+            icon={"EditIcon"}
+            name="password"
+            type="password"
+            placeholder={"Пароль"}
+            disabled={loading ? true : emailInputDisabled}
+            error={showErrors.password}
+            errorText={errors.password}
+            value={values.password ?? ""}
+            onChange={handleChange}
+            onFocus={handleFocus}
+            onIconClick={() => {
+              if (inputFieldsChanged) {
+                // @ts-ignore
+                resetValue("password", user?.password);
+              }
+              setEmailInputDisabled(!passwordInputDisabled);
             }}
           />
         </div>

@@ -50,7 +50,7 @@ function Register() {
               name="name"
               type="text"
               placeholder={"Имя"}
-              disabled={loading ? true : false}
+              disabled={loading}
               error={showErrors.name}
               errorText={errors.name}
               value={values.name ?? ""}
@@ -89,7 +89,7 @@ function Register() {
 
           <div className={`${styles["button"]} ${error ? "mb-5" : ""}`}>
             <Button
-              disabled={loading ? true : false}
+              disabled={loading}
               type="primary"
               htmlType="submit"
               size="medium"

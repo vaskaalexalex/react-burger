@@ -14,6 +14,7 @@ interface ITokenData {
 interface IUserData {
   email: string;
   name: string;
+  password: string;
 }
 
 interface ILoginUser extends ITokenData {

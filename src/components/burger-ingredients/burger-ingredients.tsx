@@ -179,13 +179,10 @@ const BurgerIngredients = () => {
 
     const minCategoryPosition = Math.min(...Object.values(categoriesPositions));
 
-    console.log(categoriesPositions);
-
     const currentTab = Object.keys(categoriesPositions).find(
       // @ts-ignore
       (key) => minCategoryPosition === categoriesPositions[key]
     );
-    console.log(currentTab);
     // @ts-ignore
     setTab(currentTab);
   };

@@ -17,6 +17,7 @@ export const initialState: ISliceState = {
   user: {
     name: "",
     email: "",
+    password: "",
   },
   tokens: {
     accessToken: getCookie("accessToken") ?? "",
@@ -107,10 +108,12 @@ export const updateUserData = createAsyncThunk(
     accessToken,
     name,
     email,
+    password,
   }: {
     accessToken: string;
     name: string;
     email: string;
+    password: string;
   }) => {
     const requestOptions: IRequestOptions = {
       method: "PATCH",
@@ -121,6 +124,7 @@ export const updateUserData = createAsyncThunk(
       body: JSON.stringify({
         name: name!,
         email: email!,
+        password: password,
       }),
     };
 
@@ -209,6 +213,7 @@ export const authUser = createSlice({
         state.user = {
           name: action.payload.user.name,
           email: action.payload.user.email,
+          password: action.payload.user.password,
         };
 
         state.tokens = {
@@ -230,6 +235,7 @@ export const authUser = createSlice({
         state.user = {
           name: action.payload.user.name,
           email: action.payload.user.email,
+          password: action.payload.user.password,
         };
         state.tokens = {
           refreshToken: action.payload.refreshToken,
@@ -250,6 +256,7 @@ export const authUser = createSlice({
         state.user = {
           name: "",
           email: "",
+          password: "",
         };
         state.tokens = {
           refreshToken: "",
@@ -272,6 +279,7 @@ export const authUser = createSlice({
           user: {
             name: action.payload.user.name,
             email: action.payload.user.email,
+            password: action.payload.user.password,
           },
         });
       })
@@ -291,6 +299,7 @@ export const authUser = createSlice({
           user: {
             name: action.payload.user.name,
             email: action.payload.user.email,
+            password: action.payload.user.password,
           },
         });
       })
