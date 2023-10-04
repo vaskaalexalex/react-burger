@@ -1,8 +1,8 @@
 import {
-  ILoginUser,
-  IRequestOptions,
   IIngredient,
+  ILoginUser,
   IMessageData,
+  IRequestOptions,
   ITokenData,
 } from "../types";
 import { setCookie } from "./utils";
@@ -11,8 +11,7 @@ export const BASE_URL = "https://norma.nomoreparties.space/api/";
 
 const checkSuccess = async (res: Response) => {
   if (res.ok) {
-    const data = await res.json();
-    return data;
+    return await res.json();
   }
   throw new Error(`Response not successful: ${res.statusText}`);
 };

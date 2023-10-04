@@ -69,7 +69,7 @@ function App() {
           <Route
             path="/login"
             element={
-              <ProtectedRoute>
+              <ProtectedRoute anonymous>
                 <Login />
               </ProtectedRoute>
             }
@@ -106,7 +106,7 @@ function App() {
           <Route
             path="/profile"
             element={
-              <ProtectedRoute anonymous={true}>
+              <ProtectedRoute>
                 <Profile />
               </ProtectedRoute>
             }

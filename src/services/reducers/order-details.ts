@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import { addOrderRequest } from "../../utils";
 import { IIngredient, IOrder } from "../../types";
@@ -16,7 +16,7 @@ export const initialState: ISliceState = {
   error: "",
 };
 
-export const getOrderNumber = createAsyncThunk(
+export const createOrder = createAsyncThunk(
   "ingredients/getOrderNumber",
   async ({
     ingredients,
@@ -33,8 +33,7 @@ export const getOrderNumber = createAsyncThunk(
       ingredients: [bun._id, ...ingredients.map(({ _id }) => _id)],
     };
 
-    const response = await addOrderRequest(requestOptions);
-    return response;
+    return await addOrderRequest(requestOptions);
   }
 );
 
@@ -48,24 +47,20 @@ export const orderDetails = createSlice({
   },
   extraReducers(builder) {
     builder
-      .addCase(getOrderNumber.pending, (state) => {
+      .addCase(createOrder.pending, (state) => {
         state.status = "getOrderNumber/loading";
       })
-      .addCase(
-        getOrderNumber.fulfilled,
-        (state, action: PayloadAction<number>) => {
-          state.status = "getOrderNumber/succeeded";
-          state.orderNumber = action.payload;
-        }
-      )
-      .addCase(getOrderNumber.rejected, (state, action) => {
+      .addCase(createOrder.fulfilled, (state, action) => {
+        state.status = "getOrderNumber/succeeded";
+        state.orderData = action.payload;
+        state.orderNumber = action.payload.order.number;
+      })
+      .addCase(createOrder.rejected, (state, action) => {
         state.orderNumber = 0;
         state.status = "getOrderNumber/failed";
         if (action.error.message) state.error = action.error.message;
       });
   },
 });
-
-export const { addDataToModal } = orderDetails.actions;
 
 export default orderDetails.reducer;

@@ -14,7 +14,7 @@ import {
   resetState,
 } from "../../services/reducers/burger-constructor";
 import { useDrop } from "react-dnd";
-import { getOrderNumber } from "../../services/reducers/order-details";
+import { createOrder } from "../../services/reducers/order-details";
 import { BurgerBunItem } from "./burger-bun/burger-bun";
 import { BurgerContent } from "./burger-content/burger-content";
 import { TotalPrice } from "../total-price/total-price";
@@ -72,12 +72,12 @@ const BurgerConstructor = () => {
     [dispatch]
   );
 
-  const createOrder = () => {
+  const handleCreateOrder = () => {
     if (userAuthorized(user)) {
       openModal();
 
       dispatch(
-        getOrderNumber({
+        createOrder({
           ingredients: ingredients,
           bun: bun,
         })
@@ -157,7 +157,7 @@ const BurgerConstructor = () => {
           htmlType="button"
           type="primary"
           size="medium"
-          onClick={createOrder}
+          onClick={handleCreateOrder}
           disabled={!(ingredients.length && bun._id)}
         >
           Заказать

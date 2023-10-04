@@ -1,7 +1,7 @@
-import { Navigate, useLocation } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAppSelector } from "../../services/hooks";
-import { ReactElement } from "react";
 import { userAuthorized } from "../../utils";
+import { ReactElement } from "react";
 
 function ProtectedRoute({
   children,
@@ -13,21 +13,14 @@ function ProtectedRoute({
   const { user } = useAppSelector((state) => state.authUser);
   const isLoggedIn = userAuthorized(user);
 
-  const location = useLocation();
-  const from = location.state?.from || "/";
-  // Если разрешен неавторизованный доступ, а пользователь авторизован...
   if (anonymous && isLoggedIn) {
-    // ...то отправляем его на предыдущую страницу
-    return <Navigate to={from} />;
+    return <Navigate to="/" replace />;
   }
 
-  // Если требуется авторизация, а пользователь не авторизован...
   if (!anonymous && !isLoggedIn) {
-    // ...то отправляем его на страницу логин
-    return <Navigate to="/login" state={{ from: location }} />;
+    return <Navigate to="/login" replace />;
   }
 
-  // Если все ок, то рендерим внутреннее содержимое
   return children;
 }
 
