@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { IIngredient } from "../../types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useLocation, useNavigate } from "react-router-dom";
+import { RootState } from "../../services/root-reducer";
 
 interface CounterType extends Record<string, any> {
   id?: number;
@@ -31,7 +32,7 @@ const BurgerIngredients = () => {
   const navigate = useNavigate();
 
   const ingredients = useAppSelector(
-    (state: any) => state.burgerIngredients.ingredients
+    (state: RootState) => state.burgerIngredients.ingredients
   );
 
   const [tab, setTab] = useState("one");
@@ -49,7 +50,7 @@ const BurgerIngredients = () => {
     setTab(value);
   }, []);
 
-  useEffect((): any => {
+  useEffect((): void => {
     const targets = [bunsRef.current, sauceRef.current, mainRef.current];
     const options = {
       root: scrollRef.current,
@@ -84,7 +85,7 @@ const BurgerIngredients = () => {
   };
 
   const constructorIngredients = useAppSelector(
-    (state: any) => state.constructorIngredients
+    (state: RootState) => state.constructorIngredients
   );
 
   const buns = useMemo(

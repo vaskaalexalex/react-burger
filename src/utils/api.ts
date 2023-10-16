@@ -2,6 +2,7 @@ import {
   IIngredient,
   ILoginUser,
   IMessageData,
+  IOrder,
   IRequestOptions,
   ITokenData,
 } from "../types";
