@@ -30,7 +30,7 @@ export const getIngredients = (): Promise<IIngredient[]> =>
     (response) => response.data
   );
 
-export const addOrderRequest = (data: any): Promise<any> => {
+export const addOrderRequest = (data: IRequestOptions): Promise<any> => {
   const requestParams = {
     method: "POST",
     body: JSON.stringify(data),
