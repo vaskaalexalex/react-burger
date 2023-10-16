@@ -1,15 +1,12 @@
 .burger-constructor {
+  width: 600px;
+  flex-direction: column;
   display: flex;
-  flex-flow: column;
-  height: 500px;
-  overflow: auto;
-  scroll-behavior: smooth;
-  overflow-x: hidden;
-  justify-content: space-between;
 }
 
 .constructor-wrapper {
-  margin-top: 100px;
+  flex: 0 0 48%;
+  height: 100%;
 }
 
 .item {

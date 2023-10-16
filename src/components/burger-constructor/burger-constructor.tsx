@@ -2,8 +2,8 @@ import React, { useCallback, useMemo, useRef } from "react";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { v4 as uuidv4 } from "uuid";
 import constructorStyles from "./burger-constructor.module.css";
-import { IIngredient, IngredientType } from "../constants";
-import Modal from "../modal/modal-template";
+import { IngredientType } from "../constants";
+import { Modal } from "../modal/modal-template";
 import ModalTotal from "../order-details/order-details";
 import {
   addIngredient,
@@ -14,11 +14,14 @@ import {
   resetState,
 } from "../../services/reducers/burger-constructor";
 import { useDrop } from "react-dnd";
-import { getOrderNumber } from "../../services/reducers/order-details";
+import { createOrder } from "../../services/reducers/order-details";
 import { BurgerBunItem } from "./burger-bun/burger-bun";
 import { BurgerContent } from "./burger-content/burger-content";
 import { TotalPrice } from "../total-price/total-price";
 import { useAppDispatch, useAppSelector, useModal } from "../../services/hooks";
+import { IIngredient } from "../../types";
+import { useNavigate } from "react-router-dom";
+import { userAuthorized } from "../../utils";
 
 const BurgerConstructor = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
@@ -27,6 +30,9 @@ const BurgerConstructor = () => {
   const { ingredients, bun } = useAppSelector(
     (state: any) => state.constructorIngredients
   );
+  const navigate = useNavigate();
+
+  const { user } = useAppSelector((state) => state.authUser);
 
   function closePortal() {
     closeModal();
@@ -66,14 +72,23 @@ const BurgerConstructor = () => {
     [dispatch]
   );
 
-  const createOrder = () => {
-    openModal();
-    dispatch(
-      getOrderNumber({
-        ingredients: ingredients,
-        bun: bun,
-      })
-    );
+  const handleCreateOrder = () => {
+    if (userAuthorized(user)) {
+      openModal();
+
+      dispatch(
+        createOrder({
+          ingredients: ingredients,
+          bun: bun,
+        })
+      );
+      localStorage.removeItem("constructorIngredients");
+    } else {
+      navigate("/login", {
+        state: { from: "/" },
+        replace: true,
+      });
+    }
   };
 
   const price = useMemo(() => {
@@ -82,7 +97,7 @@ const BurgerConstructor = () => {
         acc + item.price * (item.type === IngredientType.bun ? 2 : 1),
       0
     );
-  }, [bun.price, ingredients]);
+  }, [ingredients]);
 
   return (
     <div
@@ -142,7 +157,7 @@ const BurgerConstructor = () => {
           htmlType="button"
           type="primary"
           size="medium"
-          onClick={createOrder}
+          onClick={handleCreateOrder}
           disabled={!(ingredients.length && bun._id)}
         >
           Заказать

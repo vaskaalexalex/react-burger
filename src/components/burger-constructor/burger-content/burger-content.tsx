@@ -5,7 +5,7 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import itemStyles from "../burger-item.module.css";
-import { IIngredient } from "../../constants";
+import { IIngredient } from "../../../types";
 
 interface IBurgerContent {
   ingredient: IIngredient;

@@ -50,4 +50,4 @@ const Modal = ({ children, onClose, title = "" }: ModalProps) => {
   );
 };
 
-export default Modal;
+export { Modal };

@@ -1,33 +1,27 @@
-import { IIngredient } from "../components/constants";
+import {
+  IIngredient,
+  ILoginUser,
+  IMessageData,
+  IRequestOptions,
+  ITokenData,
+} from "../types";
+import { setCookie } from "./utils";
 
 export const BASE_URL = "https://norma.nomoreparties.space/api/";
 
-interface ErrorResponse {
-  message: string;
-}
-
-const checkResponse = async <T>(res: Response): Promise<T> => {
+const checkSuccess = async (res: Response) => {
   if (res.ok) {
-    return res.json();
+    return await res.json();
   }
-  const error: ErrorResponse = await res.json();
-  throw new Error(`Request failed with status ${res.status}: ${error.message}`);
-};
-
-const checkSuccess = (res: any) => {
-  if (res && res.success) {
-    return res;
-  }
-  return Promise.reject(`Ответ не success: ${res}`);
+  throw new Error(`Response not successful: ${res.statusText}`);
 };
 
 const request = async <T>(
   endpoint: string,
   options?: RequestInit
 ): Promise<T> => {
-  const response = await fetch(`${BASE_URL}${endpoint}`, options);
-  const data = await checkResponse<T>(response);
-  return checkSuccess(data);
+  const res = await fetch(`${BASE_URL}${endpoint}`, options);
+  return checkSuccess(res);
 };
 
 export const getIngredients = (): Promise<IIngredient[]> =>
@@ -35,8 +29,7 @@ export const getIngredients = (): Promise<IIngredient[]> =>
     (response) => response.data
   );
 
-export const addOrderRequest = (data: any): any => {
-  console.log(data);
+export const addOrderRequest = (data: any): Promise<any> => {
   const requestParams = {
     method: "POST",
     body: JSON.stringify(data),
@@ -44,5 +37,63 @@ export const addOrderRequest = (data: any): any => {
       "Content-Type": "application/json",
     },
   };
-  request<any>("orders", requestParams).then((response) => response.data);
+  return request<any>("orders", requestParams);
+};
+
+export const createUser = async (
+  requestOptions: IRequestOptions
+): Promise<ILoginUser> => {
+  const response = await request<ILoginUser>("auth/register", requestOptions);
+  setCookie("accessToken", response.accessToken);
+  setCookie("refreshToken", response.refreshToken);
+  return response;
+};
+
+export const loginUser = async (
+  requestOptions: IRequestOptions
+): Promise<ILoginUser> => {
+  const response = await request<ILoginUser>("auth/login", requestOptions);
+  setCookie("accessToken", response.accessToken);
+  setCookie("refreshToken", response.refreshToken);
+  return response;
+};
+
+export const logoutUser = async (requestOptions: IRequestOptions) => {
+  const response = await request<IMessageData>("auth/logout", requestOptions);
+  setCookie("accessToken", "", { expires: 0 });
+  setCookie("refreshToken", "", { expires: 0 });
+  return response;
+};
+
+export const getUser = async (
+  requestOptions: IRequestOptions
+): Promise<ILoginUser> => {
+  return request<ILoginUser>("auth/user", requestOptions);
+};
+
+export const updateUser = async (
+  requestOptions: IRequestOptions
+): Promise<ILoginUser> => {
+  return request<ILoginUser>("auth/user", requestOptions);
+};
+
+export const getNewToken = async (
+  requestOptions: IRequestOptions
+): Promise<ITokenData> => {
+  const response = await request<ITokenData>("auth/token", requestOptions);
+  setCookie("accessToken", response.accessToken);
+  setCookie("refreshToken", response.refreshToken);
+  return response;
+};
+
+export const forgotPassword = async (
+  requestOptions: IRequestOptions
+): Promise<IMessageData> => {
+  return request<IMessageData>("password-reset", requestOptions);
+};
+
+export const resetPassword = async (
+  requestOptions: IRequestOptions
+): Promise<IMessageData> => {
+  return request<IMessageData>("password-reset/reset", requestOptions);
 };
