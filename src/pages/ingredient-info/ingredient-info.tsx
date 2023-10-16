@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 
 import { useAppSelector, useAppDispatch } from "../../services/hooks";
 import { IngredientDetails } from "../../components/ingredient-details/ingredient-details";
-import { addDataToModal } from "../../services/reducers/ingredients-details";
 
 import styles from "./ingredient-info-module.css";
 

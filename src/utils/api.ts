@@ -2,7 +2,7 @@ import {
   IIngredient,
   ILoginUser,
   IMessageData,
-  IOrder,
+  IOrderResponse,
   IRequestOptions,
   ITokenData,
 } from "../types";
@@ -30,7 +30,9 @@ export const getIngredients = (): Promise<IIngredient[]> =>
     (response) => response.data
   );
 
-export const addOrderRequest = (data: IRequestOptions): Promise<any> => {
+export const addOrderRequest = (
+  data: IRequestOptions
+): Promise<IOrderResponse> => {
   const requestParams = {
     method: "POST",
     body: JSON.stringify(data),
@@ -38,7 +40,7 @@ export const addOrderRequest = (data: IRequestOptions): Promise<any> => {
       "Content-Type": "application/json",
     },
   };
-  return request<any>("orders", requestParams);
+  return request<IOrderResponse>("orders", requestParams);
 };
 
 export const createUser = async (

@@ -52,7 +52,6 @@ export const orderDetails = createSlice({
       })
       .addCase(createOrder.fulfilled, (state, action) => {
         state.status = "getOrderNumber/succeeded";
-        state.orderData = action.payload;
         state.orderNumber = action.payload.order.number;
       })
       .addCase(createOrder.rejected, (state, action) => {

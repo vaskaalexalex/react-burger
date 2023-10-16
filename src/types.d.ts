@@ -70,6 +70,12 @@ export interface IOrder {
   _id: string;
 }
 
+export interface IOrderResponse {
+  name: string;
+  order: { number: number };
+  status: string;
+}
+
 interface Tab {
   _id: number;
   name: string;
