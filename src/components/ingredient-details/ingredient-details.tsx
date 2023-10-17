@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect } from "react";
 import cardsStyles from "./ingredients-modal.module.css";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { useParams } from "react-router-dom";
@@ -13,7 +13,7 @@ const IngredientDetails = () => {
     (state) => state.burgerIngredients.ingredients
   );
 
-  useEffect(() => {
+  useEffect((): void => {
     const ingredient = ingredients.find((obj) => obj._id === id);
     if (ingredient) {
       const modalData = {

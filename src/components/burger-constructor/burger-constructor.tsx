@@ -22,13 +22,14 @@ import { useAppDispatch, useAppSelector, useModal } from "../../services/hooks";
 import { IIngredient } from "../../types";
 import { useNavigate } from "react-router-dom";
 import { userAuthorized } from "../../utils";
+import { RootState } from "../../services/root-reducer";
 
 const BurgerConstructor = () => {
   const { isModalOpen, openModal, closeModal } = useModal();
   const dispatch = useAppDispatch();
   const dropRef = useRef<HTMLUListElement>(null);
   const { ingredients, bun } = useAppSelector(
-    (state: any) => state.constructorIngredients
+    (state: RootState) => state.constructorIngredients
   );
   const navigate = useNavigate();
 
