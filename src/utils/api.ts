@@ -2,6 +2,7 @@ import {
   IIngredient,
   ILoginUser,
   IMessageData,
+  IOrder,
   IOrderResponse,
   IRequestOptions,
   ITokenData,
@@ -33,14 +34,7 @@ export const getIngredients = (): Promise<IIngredient[]> =>
 export const addOrderRequest = (
   data: IRequestOptions
 ): Promise<IOrderResponse> => {
-  const requestParams = {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-  return request<IOrderResponse>("orders", requestParams);
+  return request<IOrderResponse>("orders", data);
 };
 
 export const createUser = async (
@@ -99,4 +93,10 @@ export const resetPassword = async (
   requestOptions: IRequestOptions
 ): Promise<IMessageData> => {
   return request<IMessageData>("password-reset/reset", requestOptions);
+};
+
+export const getOrder = async (number: number): Promise<IOrder[]> => {
+  const response = await request(`orders/${number}`);
+  const { orders } = response as { orders: IOrder[] };
+  return orders;
 };

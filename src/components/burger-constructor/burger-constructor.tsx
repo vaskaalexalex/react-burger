@@ -33,7 +33,7 @@ const BurgerConstructor = () => {
   );
   const navigate = useNavigate();
 
-  const { user } = useAppSelector((state) => state.authUser);
+  const { user, tokens } = useAppSelector((state) => state.authUser);
 
   function closePortal() {
     closeModal();
@@ -81,6 +81,7 @@ const BurgerConstructor = () => {
         createOrder({
           ingredients: ingredients,
           bun: bun,
+          accessToken: tokens.accessToken,
         })
       );
       localStorage.removeItem("constructorIngredients");

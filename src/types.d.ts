@@ -76,6 +76,13 @@ export interface IOrderResponse {
   status: string;
 }
 
+interface IOrdersData {
+  success: boolean;
+  orders: Array<IOrder>;
+  total: number;
+  totalToday: number;
+}
+
 interface Tab {
   _id: number;
   name: string;

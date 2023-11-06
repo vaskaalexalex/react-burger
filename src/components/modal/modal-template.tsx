@@ -7,12 +7,18 @@ import modalStyles from "./modal-template.module.css";
 type ModalProps = {
   children: JSX.Element;
   onClose: () => void;
-  title: string;
+  title?: string;
+  titleIsNumber?: boolean;
 };
 
 const modalRoot = document.getElementById("modals")!;
 
-const Modal = ({ children, onClose, title = "" }: ModalProps) => {
+const Modal = ({
+  children,
+  onClose,
+  title = "",
+  titleIsNumber,
+}: ModalProps) => {
   useEffect(() => {
     const closeOnESC = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -38,7 +44,17 @@ const Modal = ({ children, onClose, title = "" }: ModalProps) => {
         <div
           className={`${modalStyles["modal-header"]} text text_type_main-medium`}
         >
-          {title}
+          <p
+            className={`${modalStyles["modal-title"]}
+                ${
+                  titleIsNumber
+                    ? "text text_type_digits-default"
+                    : "text text_type_main-medium"
+                }
+              `}
+          >
+            {title}
+          </p>
           <div className={modalStyles["close-icon"]} onClick={onClose}>
             <CloseIcon type="primary" />
           </div>
