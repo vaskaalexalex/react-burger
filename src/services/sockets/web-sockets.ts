@@ -1,6 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { IOrdersData } from "../../types";
 
+let ws: WebSocket;
+window.addEventListener("beforeunload", () => {
+  if (ws) {
+    ws.close(1001, "user_closed_page");
+  }
+});
+
 export const webSocketApi = createApi({
   reducerPath: "webSocketApi",
   baseQuery: fetchBaseQuery({
@@ -15,7 +22,8 @@ export const webSocketApi = createApi({
         url,
         { updateCachedData, cacheDataLoaded, cacheEntryRemoved }
       ) {
-        const ws = new WebSocket(url);
+        ws = new WebSocket(url);
+
         try {
           await cacheDataLoaded;
           const listener = (event: MessageEvent) => {
@@ -25,8 +33,11 @@ export const webSocketApi = createApi({
 
           ws.addEventListener("message", listener);
         } catch {}
+
         await cacheEntryRemoved;
-        ws.close();
+        if (ws) {
+          ws.close(1001, "user_closed_page");
+        }
       },
     }),
   }),

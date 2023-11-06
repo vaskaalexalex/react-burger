@@ -23,11 +23,11 @@ export function ProfileOrders() {
 
   useEffect(() => {
     setOrdersHeight(ordersRef?.current?.clientHeight ?? 0);
-  }, []);
+  }, [ordersRef]);
 
   let content = null;
 
-  const { tokens } = useAppSelector((state) => state.authUser);
+  const tokens = useAppSelector((state) => state.authUser.tokens);
 
   const { data, isLoading, error } = useGetOrdersQuery(
     `wss://norma.nomoreparties.space/orders?token=${

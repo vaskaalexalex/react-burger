@@ -25,7 +25,7 @@ import { getUserData, getNewAccessToken } from "../../services/reducers/auth";
 import styles from "./app.module.css";
 import { Loading } from "../loading/loading";
 import { Error } from "../error/error";
-import { Logout } from "../../pages/auth-pages/logout";
+import { Logout } from "../../pages";
 import { ProtectedRoute } from "../protected-routes/protected-route";
 import { OrderInfoModal } from "../order-info-modal/order-info-modal";
 
@@ -37,7 +37,7 @@ function App() {
   const navigate = useNavigate();
 
   const { status, error } = useAppSelector((state) => state.burgerIngredients);
-  const { tokens } = useAppSelector((state) => state.authUser);
+  const tokens = useAppSelector((state) => state.authUser.tokens);
   const accessToken = tokens.accessToken;
   const refreshToken = tokens.refreshToken;
 
