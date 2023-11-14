@@ -1,0 +1,30 @@
+.container {
+    width: 100%;
+    height: calc(100% - 100px);
+}
+
+.profile-container {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    align-items: flex-start;
+    flex-flow: row;
+}
+
+.profile-items-container {
+    display: flex;
+    width: 320px;
+    flex-flow: column;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.orders-container {
+    display: flex;
+    flex-flow: column;
+    scroll-behavior: smooth;
+    height: calc(100% - 45px);
+    width: 760px;
+    margin-top: 40px;
+}

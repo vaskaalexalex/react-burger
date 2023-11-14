@@ -2,17 +2,21 @@
   width: 600px;
   flex-direction: column;
   display: flex;
+  margin-top: 20px;
+  max-height: 80vh;
 }
 
 .constructor-wrapper {
   flex: 0 0 48%;
-  height: 100%;
+
 }
 
 .item {
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
   padding: 0;
+  margin-bottom: 20px;
 }
 
 .item-inner {

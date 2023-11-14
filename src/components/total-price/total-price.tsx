@@ -4,9 +4,10 @@ import cartStyles from "./total-price.module.css";
 interface TotalPriceType {
   price: number;
   size?: "default" | "medium" | "large";
+  multiplied?: number;
 }
 
-export function TotalPrice({ price, size }: TotalPriceType) {
+export function TotalPrice({ price, size, multiplied }: TotalPriceType) {
   return (
     <div className={cartStyles["cart_total"]}>
       <p
@@ -14,6 +15,7 @@ export function TotalPrice({ price, size }: TotalPriceType) {
           size ? size : "default"
         }`}
       >
+        {multiplied ? `${multiplied} x ` : ""}
         {price}
       </p>
       <div

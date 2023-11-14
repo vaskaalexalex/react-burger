@@ -1,4 +1,12 @@
-export { HomePage } from "./home-page/HomePage";
-export * from "./auth-pages";
 export { IngredientInfo } from "./ingredient-info/ingredient-info";
+export { Login } from "./auth-pages/login";
+export { Register } from "./auth-pages/register";
+export { ForgotPassword } from "./auth-pages/forgot-password";
+export { ResetPassword } from "./auth-pages/reset-password";
+export { Profile } from "./auth-pages/profile";
+export { Logout } from "./auth-pages/logout";
 export { NotFound } from "./not-found/not-found";
+export { Orders } from "./orders/orders";
+export { OrderInfoPage } from "./order-info-page/order-info-page";
+export { ProfileOrders } from "./profile-orders/profile-orders";
+export { HomePage } from "./home-page/HomePage";
