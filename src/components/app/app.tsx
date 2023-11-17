@@ -18,9 +18,12 @@ import {
 import { Modal } from "../modal/modal-template";
 import { IngredientDetails } from "../ingredient-details/ingredient-details";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
-import { fetchIngredients } from "../../services/reducers/burger-ingredients";
+import { fetchIngredients } from "../../services/reducers/burger-ingredients/burger-ingredients";
 import { tokenExists, isTokenExpired } from "../../utils";
-import { getUserData, getNewAccessToken } from "../../services/reducers/auth";
+import {
+  getUserData,
+  getNewAccessToken,
+} from "../../services/reducers/auth/auth";
 
 import styles from "./app.module.css";
 import { Loading } from "../loading/loading";

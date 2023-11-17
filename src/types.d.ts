@@ -45,7 +45,7 @@ interface IRequestOptions {
 export interface IIngredient {
   id: string;
   name: string;
-  type: IngredientType.bun | IngredientType.main | IngredientType.sauce;
+  type: IngredientType;
   fat: number;
   calories: number;
   carbohydrates: number;

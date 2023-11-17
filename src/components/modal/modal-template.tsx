@@ -55,7 +55,11 @@ const Modal = ({
           >
             {title}
           </p>
-          <div className={modalStyles["close-icon"]} onClick={onClose}>
+          <div
+            className={modalStyles["close-icon"]}
+            onClick={onClose}
+            data-testid="modal-close-icon"
+          >
             <CloseIcon type="primary" />
           </div>
         </div>

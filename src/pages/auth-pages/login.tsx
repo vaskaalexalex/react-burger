@@ -2,7 +2,7 @@ import { ReactElement, SyntheticEvent, useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useAppSelector, useAppDispatch } from "../../services/hooks";
-import { loginUserProfile } from "../../services/reducers/auth";
+import { loginUserProfile } from "../../services/reducers/auth/auth";
 import {
   Input,
   Button,

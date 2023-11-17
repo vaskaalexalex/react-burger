@@ -7,7 +7,7 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useValidateForm } from "../../hooks/useValidateForm";
-import { forgotUserPassword } from "../../services/reducers/auth";
+import { forgotUserPassword } from "../../services/reducers/auth/auth";
 
 import styles from "./auth-pages.module.css";
 

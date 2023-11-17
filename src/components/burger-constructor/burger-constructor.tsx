@@ -12,9 +12,9 @@ import {
   removeBun,
   removeIngredient,
   resetState,
-} from "../../services/reducers/burger-constructor";
+} from "../../services/reducers/burger-constructor/burger-constructor";
 import { useDrop } from "react-dnd";
-import { createOrder } from "../../services/reducers/order-details";
+import { createOrder } from "../../services/reducers/order-details/order-details";
 import { BurgerBunItem } from "./burger-bun/burger-bun";
 import { BurgerContent } from "./burger-content/burger-content";
 import { TotalPrice } from "../total-price/total-price";
@@ -105,6 +105,7 @@ const BurgerConstructor = () => {
     <div
       className={`${constructorStyles["constructor-wrapper"]} custom-scroll`}
       ref={dropTarget}
+      data-testid="constructor-drop-target"
     >
       <div
         key="burger-constructor"
@@ -161,6 +162,7 @@ const BurgerConstructor = () => {
           size="medium"
           onClick={handleCreateOrder}
           disabled={!(ingredients.length && bun._id)}
+          data-testid="make-order"
         >
           Заказать
         </Button>

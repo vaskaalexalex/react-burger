@@ -2,7 +2,7 @@ import React, { Fragment, useEffect } from "react";
 import cardsStyles from "./ingredients-modal.module.css";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { useParams } from "react-router-dom";
-import { addDataToModal } from "../../services/reducers/ingredients-details";
+import { addDataToModal } from "../../services/reducers/ingredients-details/ingredients-details";
 
 const IngredientDetails = () => {
   const dispatch = useAppDispatch();
