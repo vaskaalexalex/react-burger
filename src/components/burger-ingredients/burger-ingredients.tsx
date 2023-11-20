@@ -8,7 +8,7 @@ import React, {
 import { IngredientCard } from "./card/ingredient-card";
 import ingredientsStyles from "./burger-ingredients.module.css";
 import { IngredientType, Tabs } from "../constants";
-import { addDataToModal } from "../../services/reducers/ingredients-details";
+import { addDataToModal } from "../../services/reducers/ingredients-details/ingredients-details";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
 import { IIngredient } from "../../types";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";

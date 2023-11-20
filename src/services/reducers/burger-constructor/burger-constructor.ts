@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import missingIcon from "../../assets/images/icon.svg";
-import { IIngredient } from "../../types";
-import { IngredientType } from "../../components/constants";
+import missingIcon from "../../../assets/images/icon.svg";
+import { IIngredient } from "../../../types";
+import { IngredientType } from "../../../components/constants";
 interface ISliceState {
   ingredients: IIngredient[];
   bun: IIngredient;

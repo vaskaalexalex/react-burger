@@ -2,12 +2,12 @@ import React, { useState, useEffect, useMemo } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
 import { useAppSelector, useAppDispatch } from "../../services/hooks";
-import { resetState } from "../../services/reducers/auth";
+import { resetState } from "../../services/reducers/auth/auth";
 import {
   Input,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { updateUserData } from "../../services/reducers/auth";
+import { updateUserData } from "../../services/reducers/auth/auth";
 import { useValidateForm } from "../../hooks/useValidateForm";
 import { tokenExists } from "../../utils";
 

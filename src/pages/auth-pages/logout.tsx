@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useAppSelector, useAppDispatch } from "../../services/hooks";
 import { Loading } from "../../components/loading/loading";
-import { logoutUserProfile } from "../../services/reducers/auth";
+import { logoutUserProfile } from "../../services/reducers/auth/auth";
 import { userAuthorized } from "../../utils";
 
 import styles from "./auth-pages.module.css";

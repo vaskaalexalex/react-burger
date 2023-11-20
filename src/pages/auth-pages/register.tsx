@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 import { useAppSelector, useAppDispatch } from "../../services/hooks";
-import { createUserProfile } from "../../services/reducers/auth";
+import { createUserProfile } from "../../services/reducers/auth/auth";
 import {
   Input,
   Button,

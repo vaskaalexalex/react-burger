@@ -95,6 +95,7 @@ const BurgerContent: FC<IBurgerContent> = memo(
           }`}
           ref={dropRef}
           style={{ opacity }}
+          data-testid={"inner" + ingredient._id}
         >
           {draggable && (
             <div

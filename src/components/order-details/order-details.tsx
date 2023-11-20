@@ -15,7 +15,10 @@ const OrderDetails = () => {
   } else
     content = (
       <>
-        <div className={`${totalStyles.number} text text_type_digits-large`}>
+        <div
+          data-testid="placed-order-number"
+          className={`${totalStyles.number} text text_type_digits-large`}
+        >
           {orderNumber}
         </div>
         <div

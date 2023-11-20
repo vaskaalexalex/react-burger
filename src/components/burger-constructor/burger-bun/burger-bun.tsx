@@ -32,6 +32,8 @@ const BurgerBunItem: FC<BurgerConstructorItemTypes> = memo(
       }
     }, [place]);
 
+    console.log(ingredient.name);
+
     return (
       <>
         <div className={itemStyles["ingredient-outer"]}>
@@ -40,7 +42,7 @@ const BurgerBunItem: FC<BurgerConstructorItemTypes> = memo(
             data-testid={bunType + ingredient._id}
           >
             <ConstructorElement
-              isLocked
+              isLocked={ingredient.name === "Нет булки"}
               type={bunType}
               text={ingredient.name + bunName}
               price={ingredient.price}

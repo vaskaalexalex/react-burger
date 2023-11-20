@@ -5,7 +5,7 @@ import { useAppSelector, useAppDispatch } from "../../services/hooks";
 import { OrderInfo } from "../order-info/order-info";
 
 import styles from "./order-info-modal.module.css";
-import { getOrderByNumber } from "../../services/reducers/order-details";
+import { getOrderByNumber } from "../../services/reducers/order-details/order-details";
 import { Loading } from "../loading/loading";
 
 export function OrderInfoModal() {

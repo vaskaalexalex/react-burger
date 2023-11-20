@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getIngredients } from "../../utils";
-import { IIngredient } from "../../types";
+import { getIngredients } from "../../../utils";
+import { IIngredient } from "../../../types";
 
 interface ISliceState {
   ingredients: IIngredient[];

@@ -9,7 +9,7 @@ import {
   getTotalPriceOfIngredients,
 } from "../../utils";
 import { useAppDispatch, useAppSelector } from "../../services/hooks";
-import { addDataToModal } from "../../services/reducers/order-details";
+import { addDataToModal } from "../../services/reducers/order-details/order-details";
 
 import styles from "./order.module.css";
 import { IOrder } from "../../types";

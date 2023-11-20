@@ -10,8 +10,8 @@ import {
   getNewToken,
   forgotPassword,
   resetPassword,
-} from "../../utils";
-import { IRequestOptions, ISliceState, ITokenData } from "../../types";
+} from "../../../utils";
+import { IRequestOptions, ISliceState, ITokenData } from "../../../types";
 
 export const initialState: ISliceState = {
   user: {

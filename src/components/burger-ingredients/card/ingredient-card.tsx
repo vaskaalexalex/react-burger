@@ -34,7 +34,7 @@ export const IngredientCard = ({
           onClick();
         }}
       >
-        <img alt="not" src={image}></img>
+        <img data-testid={ingredient._id} alt="not" src={image}></img>
       </div>
       <div className={`${cardsStyles["card-price"]} mb-1 mt-1`}>
         <p className="text text_type_digits-small mr-2">{price}</p>
