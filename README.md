@@ -1,3 +1,3 @@
 # Stellar Burger Inc
 
-http://react.burger.nomoredomainsmonster.ru/
+https://react.burger.nomoredomainsmonster.ru/
