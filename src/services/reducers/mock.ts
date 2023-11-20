@@ -2,35 +2,46 @@ import { v4 as uuidv4 } from "uuid";
 import { IIngredient } from "../../types";
 import { IngredientType } from "../../components/constants";
 
+export const uniqueIdFirst = uuidv4();
+const uniqueIdSecond = uuidv4();
+
+export const secondBun: IIngredient = {
+  _id: "60d3b41abdacab0026a733c7",
+  id: "60d3b41abdacab0026a733c7",
+  name: "Флюоресцентная булка R2-D3",
+  type: IngredientType.bun,
+  proteins: 44,
+  fat: 26,
+  carbohydrates: 85,
+  calories: 643,
+  price: 988,
+  uniqueId: uniqueIdSecond,
+  image: "https://code.s3.yandex.net/react/code/bun-01.png",
+  image_mobile: "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
+  image_large: "https://code.s3.yandex.net/react/code/bun-01-large.png",
+  __v: 0,
+};
+
+export const bun: IIngredient = {
+  _id: "60d3b41abdacab0026a733c6",
+  id: "60d3b41abdacab0026a733c6",
+  name: "Краторная булка N-200i",
+  type: IngredientType.bun,
+  proteins: 80,
+  fat: 24,
+  carbohydrates: 53,
+  calories: 420,
+  price: 1255,
+  uniqueId: uniqueIdFirst,
+  image: "https://code.s3.yandex.net/react/code/bun-02.png",
+  image_mobile: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
+  image_large: "https://code.s3.yandex.net/react/code/bun-02-large.png",
+  __v: 0,
+};
+
 export const ingredients = [
-  {
-    _id: "60d3b41abdacab0026a733c6",
-    name: "Краторная булка N-200i",
-    type: "bun",
-    proteins: 80,
-    fat: 24,
-    carbohydrates: 53,
-    calories: 420,
-    price: 1255,
-    image: "https://code.s3.yandex.net/react/code/bun-02.png",
-    image_mobile: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
-    image_large: "https://code.s3.yandex.net/react/code/bun-02-large.png",
-    __v: 0,
-  },
-  {
-    _id: "60d3b41abdacab0026a733c7",
-    name: "Флюоресцентная булка R2-D3",
-    type: "bun",
-    proteins: 44,
-    fat: 26,
-    carbohydrates: 85,
-    calories: 643,
-    price: 988,
-    image: "https://code.s3.yandex.net/react/code/bun-01.png",
-    image_mobile: "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
-    image_large: "https://code.s3.yandex.net/react/code/bun-01-large.png",
-    __v: 0,
-  },
+  bun,
+  secondBun,
   {
     _id: "60d3b41abdacab0026a733c8",
     name: "Филе Люминесцентного тетраодонтимформа",
@@ -216,10 +227,6 @@ export const ingredients = [
     __v: 0,
   },
 ];
-
-export const uniqueIdFirst = uuidv4();
-const uniqueIdSecond = uuidv4();
-
 export const ingredientFirst: IIngredient = {
   _id: "60d3b41abdacab0026a733c9",
   id: "60d3b41abdacab0026a733c9",
@@ -251,40 +258,6 @@ export const ingredientSecond: IIngredient = {
   image: "https://code.s3.yandex.net/react/code/meat-02.png",
   image_mobile: "https://code.s3.yandex.net/react/code/meat-02-mobile.png",
   image_large: "https://code.s3.yandex.net/react/code/meat-02-large.png",
-  __v: 0,
-};
-
-export const bun: IIngredient = {
-  _id: "60d3b41abdacab0026a733c6",
-  id: "60d3b41abdacab0026a733c6",
-  name: "Краторная булка N-200i",
-  type: IngredientType.bun,
-  proteins: 80,
-  fat: 24,
-  carbohydrates: 53,
-  calories: 420,
-  price: 1255,
-  uniqueId: uniqueIdFirst,
-  image: "https://code.s3.yandex.net/react/code/bun-02.png",
-  image_mobile: "https://code.s3.yandex.net/react/code/bun-02-mobile.png",
-  image_large: "https://code.s3.yandex.net/react/code/bun-02-large.png",
-  __v: 0,
-};
-
-export const secondBun: IIngredient = {
-  _id: "60d3b41abdacab0026a733c7",
-  id: "60d3b41abdacab0026a733c7",
-  name: "Флюоресцентная булка R2-D3",
-  type: IngredientType.bun,
-  proteins: 44,
-  fat: 26,
-  carbohydrates: 85,
-  calories: 643,
-  price: 988,
-  uniqueId: uniqueIdSecond,
-  image: "https://code.s3.yandex.net/react/code/bun-01.png",
-  image_mobile: "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
-  image_large: "https://code.s3.yandex.net/react/code/bun-01-large.png",
   __v: 0,
 };
 
