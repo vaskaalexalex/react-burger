@@ -1,65 +1,60 @@
+import { BASE_URL } from "../../../src/utils";
+import {
+  BUN_INGREDIENT_SELECTOR,
+  CLOSE_BUTTON_SELECTOR,
+  DROP_TARGET_SELECTOR,
+  INNER_BUN_INGREDIENT_SELECTOR,
+  INNER_MAIN_INGREDIENT_SELECTOR,
+  MAIN_INGREDIENT_SELECTOR,
+  ORDER_NUMBER_SELECTOR,
+} from "./constants";
+
 describe("Desktop constructor E2E unauthorized tests", () => {
   beforeEach(() => {
     cy.visit("/");
     cy.viewport(1280, 720);
-    cy.intercept("POST", "https://norma.nomoreparties.space/api/auth/login").as(
-      "login"
-    );
-    cy.intercept("POST", "https://norma.nomoreparties.space/api/orders").as(
-      "getOrder"
-    );
+    cy.intercept("POST", `${BASE_URL}/auth/login`).as("login");
+    cy.intercept("POST", `${BASE_URL}/orders`).as("getOrder");
   });
 
   it("Should open and close ingredient info modal", () => {
-    cy.get('[data-testid="643d69a5c3f7b9001cfa093c"]').click();
+    cy.get(BUN_INGREDIENT_SELECTOR).click();
 
-    cy.get('[data-testid="modal-close-icon"]', { timeout: 1000 }).should(
-      "be.visible"
-    );
+    cy.get(CLOSE_BUTTON_SELECTOR, { timeout: 1000 }).should("be.visible");
 
-    cy.get('[data-testid="modal-close-icon"]').click();
+    cy.get(CLOSE_BUTTON_SELECTOR).click();
 
-    cy.get('[data-testid="modal-close-icon"]').should("not.exist");
+    cy.get(CLOSE_BUTTON_SELECTOR).should("not.exist");
   });
 
   it("Should drop bun to constructor and then remove it", () => {
-    cy.get('[data-testid="643d69a5c3f7b9001cfa093c"]').drag(
-      '[data-testid="constructor-drop-target"]'
-    );
+    cy.get(BUN_INGREDIENT_SELECTOR).drag(DROP_TARGET_SELECTOR);
 
-    cy.get('[data-testid="top643d69a5c3f7b9001cfa093c"]').should("be.visible");
+    cy.get(INNER_BUN_INGREDIENT_SELECTOR).should("be.visible");
 
-    cy.get('[data-testid="top643d69a5c3f7b9001cfa093c"]')
+    cy.get(INNER_BUN_INGREDIENT_SELECTOR)
       .find('*[class^="constructor-element__action"]')
       .trigger("click");
 
-    cy.get('[data-testid="top60d3b41abdacab0026a733c6"]').should("not.exist");
+    cy.get(INNER_BUN_INGREDIENT_SELECTOR).should("not.exist");
   });
 
   it("Should drop ingredient to constructor and remove it", () => {
-    cy.get('[data-testid="643d69a5c3f7b9001cfa093e"]').drag(
-      '[data-testid="constructor-drop-target"]'
-    );
+    cy.get(MAIN_INGREDIENT_SELECTOR).drag(DROP_TARGET_SELECTOR);
 
-    cy.get('[data-testid="inner643d69a5c3f7b9001cfa093e"]').should(
-      "be.visible"
-    );
+    cy.get(INNER_MAIN_INGREDIENT_SELECTOR).should("be.visible");
 
-    cy.get('[data-testid="inner643d69a5c3f7b9001cfa093e"]')
+    cy.get(INNER_MAIN_INGREDIENT_SELECTOR)
       .find('*[class^="constructor-element__action"]')
       .trigger("click");
 
-    cy.get('[data-testid="inner643d69a5c3f7b9001cfa093e"]').should("not.exist");
+    cy.get(INNER_MAIN_INGREDIENT_SELECTOR).should("not.exist");
   });
 
   it("Should place order if user is not logged in", () => {
-    cy.get('[data-testid="643d69a5c3f7b9001cfa093c"]').drag(
-      '[data-testid="constructor-drop-target"]'
-    );
+    cy.get(BUN_INGREDIENT_SELECTOR).drag(DROP_TARGET_SELECTOR);
 
-    cy.get('[data-testid="643d69a5c3f7b9001cfa093e"]').drag(
-      '[data-testid="constructor-drop-target"]'
-    );
+    cy.get(MAIN_INGREDIENT_SELECTOR).drag(DROP_TARGET_SELECTOR);
 
     cy.log(Cypress.env("username"));
 
@@ -80,8 +75,8 @@ describe("Desktop constructor E2E unauthorized tests", () => {
       .its("response.statusCode")
       .should("eq", 200);
 
-    cy.get('[data-testid="placed-order-number"]').should("be.visible");
+    cy.get(ORDER_NUMBER_SELECTOR).should("be.visible");
 
-    cy.get('[data-testid="modal-close-icon"]').click();
+    cy.get(CLOSE_BUTTON_SELECTOR).click();
   });
 });

@@ -1,13 +1,18 @@
+import { BASE_URL } from "../../../src/utils";
+import {
+  BUN_INGREDIENT_SELECTOR,
+  CLOSE_BUTTON_SELECTOR,
+  DROP_TARGET_SELECTOR,
+  MAIN_INGREDIENT_SELECTOR,
+  ORDER_NUMBER_SELECTOR,
+} from "./constants";
+
 describe("Desktop constructor E2E authorized tests", () => {
   beforeEach(() => {
     cy.viewport(1280, 720);
-    cy.intercept("POST", "https://norma.nomoreparties.space/api/auth/login").as(
-      "login"
-    );
+    cy.intercept("POST", `${BASE_URL}/auth/login`).as("login");
 
-    cy.intercept("POST", "https://norma.nomoreparties.space/api/orders").as(
-      "getOrder"
-    );
+    cy.intercept("POST", `${BASE_URL}/orders`).as("getOrder");
     cy.visit("/");
   });
 
@@ -25,13 +30,9 @@ describe("Desktop constructor E2E authorized tests", () => {
     cy.getCookie("accessToken").get("value").should("not.be.empty");
     cy.getCookie("refreshToken").get("value").should("not.be.empty");
 
-    cy.get('[data-testid="643d69a5c3f7b9001cfa093c"]').drag(
-      '[data-testid="constructor-drop-target"]'
-    );
+    cy.get(BUN_INGREDIENT_SELECTOR).drag(DROP_TARGET_SELECTOR);
 
-    cy.get('[data-testid="643d69a5c3f7b9001cfa093e"]').drag(
-      '[data-testid="constructor-drop-target"]'
-    );
+    cy.get(MAIN_INGREDIENT_SELECTOR).drag(DROP_TARGET_SELECTOR);
 
     cy.get("button").contains("Заказать").click();
 
@@ -39,8 +40,8 @@ describe("Desktop constructor E2E authorized tests", () => {
       .its("response.statusCode")
       .should("eq", 200);
 
-    cy.get('[data-testid="placed-order-number"]').should("be.visible");
+    cy.get(ORDER_NUMBER_SELECTOR).should("be.visible");
 
-    cy.get('[data-testid="modal-close-icon"]').click();
+    cy.get(CLOSE_BUTTON_SELECTOR).click();
   });
 });
